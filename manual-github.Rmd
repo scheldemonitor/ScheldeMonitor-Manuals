@@ -560,7 +560,7 @@ Data Centre - Local Services & Projects
 ::: {class="flex-image-item"}
 
 ```{r, echo=FALSE}
-knitr::include_graphics("./images_manual_rstudio/VLIZ_logo_positief.png")
+knitr::include_graphics("./images_manual_GitHub/VLIZ_logo_positief.png")
 ```
 
 :::
@@ -606,7 +606,7 @@ Data Centre - Local Services & Projects
 ::: {class="flex-image-item"}
 
 ```{r, echo=FALSE}
-knitr::include_graphics("./images_manual_rstudio/VLIZ_logo_positief.png")
+knitr::include_graphics("./images_manual_GitHub/VLIZ_logo_positief.png")
 ```
 
 :::
