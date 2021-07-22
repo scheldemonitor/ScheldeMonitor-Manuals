@@ -539,9 +539,10 @@ observeEvent(input$Map_click. {
   longitude_click <- input$Map_click$lng
   latitude_click <- input$Map_click$lat
   leafletProxy('Map')%>%
-  addMarkers(lng = input$Map_click$lng,
-  lat = input$Map_click$lat,
-  popup = paste("Longitude=", round(input$Map_click$lng,2), "and",))
+    clearMarkers()%>%
+    addMarkers(lng = input$Map_click$lng,
+               lat = input$Map_click$lat,
+               popup = paste("Longitude=", round(input$Map_click$lng,2), "and",))
 })
 ```
 
