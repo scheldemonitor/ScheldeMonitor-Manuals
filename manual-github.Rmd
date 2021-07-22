@@ -6,71 +6,9 @@ output:
     toc_float: true
     number_section: true
     highlight: haddock
-date:  "Written, maintained and updated by the ScheldeMonitor team of VLIZ - Version 1 (`r format(Sys.time(), '%d/%m/%Y')`)"
+    css: "style.css"
+date:  "Written, maintained and updated by the ScheldeMonitor team of VLIZ - Version 2 (`r format(Sys.time(), '%d/%m/%Y')`)"
 ---
-
-<style>
-body{
-  text-align: left;
-  font-family: Nunito Sans;
-  font-size: 13pt;
-}
-
-h1{
-  color:#0A7BC1;
-  font-weight: bold;
-  font-family: Nunito Sans;
-  text-decoration: underline;
-}
-
-h1.title{
-  color: #0A7BC1;
-  font-weight: bold;
-  font-size: 42pt;
-  font-family: Nunito Sans;
-  text-decoration: none;
-}
-
-h2{
-  font-weight: bold;
-  font-family: Nunito Sans;
-}
-
-h4.date{
-  text-align: left;
-  font-family: Nunito Sans;
-}
-
-.no-spacing{
-  font-family: Nunito Sans;
-  text-align: left;
-  line-height: 10pt;
-}
-
-.flex-container{
-  display: flex;
-  justify-content: space-between;
-  align-item: flex-start;
-}
-
-.flex-image-item{
-  width: 200px;
-  height: 200px;
-  margin: auto;
-  margin-top: 15px;
-}
-
-.flex-text-item{
-  font-family: Nunito Sans;
-  width: 200px;
-  height: 200px;
-  margin: auto;
-  margin-top: 15px;
-  line-height: 12pt;
-  font-size: 12pt;
-  text-align: left;
-}
-</style>
 
 ```{r setup, include=FALSE}
 library(knitr)
@@ -212,7 +150,7 @@ First, an installation of Git is needed on the personal hardware of the user, in
 
 ### Windows
 
-If a user is on Windows hardware, download and install Git (https://git-scm.com/downloads) for your operating system. Below are some recommended installation instructions:
+If a user is on Windows hardware, download and install [Git](https://git-scm.com/downloads) for your operating system. Below are some recommended installation instructions:
 
 |      _For “Select Components”, check:_
 
@@ -458,6 +396,8 @@ Importantly, GitHub doesn’t allow creation of empty folders. Therefore, if thi
 ```{r echo=FALSE, out.width='80%'}
 knitr::include_graphics("./images_manual_GitHub/image29_creating_a_new_folder.png")
 ```
+
+It is not compulsory to make the '.gitkeep' file on the local Git installation. The '.gitkeep' file and other changes can also be made in the online GitHub repository T2021. 
 
 ### Creating files
 
