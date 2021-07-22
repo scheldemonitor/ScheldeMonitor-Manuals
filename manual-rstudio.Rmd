@@ -521,22 +521,22 @@ code...
 Annotating code is important for a number of reasons. The main reason is for the user personally when looking back on what was coded. It helps to explain in detail what a line, chunk or even section of code is trying to accomplish. This is also helpful for other people who read the code. Explaining what a line of code is doing can be useful for others who are looking to adapt work to their own, or when someone is checking or evaluating a chunk of code.
 Annotating code is done with the symbol # (hashtag). Typically annotating can be done above a whole chunk of code, like when explaining the purpose of a certain function.
 
-``` {r example script annotations, eval=FALSE}
-#Reactive values for uses locations
-data_of_click <- reactiveValues (clicked = NULL)
+```{r example script annotation, eval=FALSE}
+#Reactive values for user location
+data_of_click <- reactiveValues(clicked = NULL)
 longitude_click <- reactiveValues (lng = NULL)
-latitude_click <- reactiveValues (lat = NULL)
+latitude_click <- reactiveVaules (lat = NULL)
 
-#if user clicks on map, new coordinates are saved and maps is adjusted
-observeEvent(input$Map_click, {
+#If user clicks on map, new coordinates are saved and map is adjusted
+observeEvent(input$Map_click. {
   data_of_click$clicked <- input$Map_click
   longitude_click <- input$Map_click$lng
   latitude_click <- input$Map_click$lat
-  leafletProxy('Map') %>%
-    clearMarkers() %<%
+  leafletProxy('Map')%>%
+    clearMarkers()%>%
     addMarkers(lng = input$Map_click$lng,
-               lat = input$Map_click$lat,
-               popup = paste("Longitude=", round(input$Map_click$lng,2), "and"))
+              lat = input$Map_click$lat,
+              popup = paste("Longitude=", round(input$Map_click$lng,2), "and", "Latittude=", round(input$Map_click$lat,2)))
 })
 ```
 
