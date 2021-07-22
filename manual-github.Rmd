@@ -7,7 +7,7 @@ output:
     number_section: true
     highlight: haddock
     css: "style.css"
-date:  "Written, maintained and updated by the ScheldeMonitor team of VLIZ - Version 2 (`r format(Sys.time(), '%d/%m/%Y')`)"
+date:  "Written, maintained and updated by the ScheldeMonitor team of VLIZ - Version 3 (`r format(Sys.time(), '%d/%m/%Y')`)"
 ---
 
 ```{r setup, include=FALSE}
@@ -32,7 +32,7 @@ As the ScheldeMonitor information and data portal holds an RStudio environment t
 
 GitHub is a code-hosting platform for version control and collaboration that is most easily accessed through a web browser at https://github.com/. It lets users work together on projects from any location. GitHub projects are saved as ‘repositories’, being either publicly or privately visible.
 
-The T2021 private GitHub is a private repository within the ‘ScheldeMonitor’ GitHub organization. This implies that organization is visible in GitHub (https://github.com/scheldemonitor), yet the repository is hidden from non-members.
+The T2021 private GitHub is a private repository within the ‘ScheldeMonitor’ GitHub organization. This implies that organization is visible in [GitHub](https://github.com/scheldemonitor), yet the repository is hidden from non-members.
 
 ```{r echo=FALSE, out.width='80%'}
 knitr::include_graphics("./images_manual_GitHub/image1_scheldemonitor_github_users.png")
@@ -63,9 +63,9 @@ When eligible for membership within the ScheldeMonitor GitHub organization, a us
 ```{r organization access table Visibility, echo=FALSE}
 data_visibilityTable <- data.frame(
   Visibility = c("See organization", "See public repositories", "See private repositories", "See members","Change repository visibility"),
-  Owner = c("X", "X", "X", "X", "X"),
-  Member = c("X", "X", "X", "X", ""),
-  Outside_collaborator = c("X", "X", "", "X", "")
+  Owner = c("Yes", "Yes", "Yes", "Yes", "Yes"),
+  Member = c("Yes", "Yes", "Yes", "Yes", "No"),
+  Outside_collaborator = c("Yes", "Yes", "No", "Yes", "No")
 )
 kable(data_visibilityTable, col.names=c("Visibility", "Owner", "Member", "Outside collaborator"), align='l', booktaps=TRUE)%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
@@ -75,9 +75,9 @@ kable(data_visibilityTable, col.names=c("Visibility", "Owner", "Member", "Outsid
 ```{r organization access table Management, echo=FALSE}
 data_managementTable <- data.frame(
   Management = c("Manage members", "Manage collaborators", "Create public repository", "Create private repository","Delete repositories", "Transfer repositories"),
-  Owner = c("X", "X", "X", "X", "X", "X"),
-  Member = c("", "", "", "", "", ""),
-  Outside_collaborator = c("", "", "", "", "", "")
+  Owner = c("Yes", "Yes", "Yes", "Yes", "Yes", "Yes"),
+  Member = c("No", "No", "No", "No", "No", "No"),
+  Outside_collaborator = c("No", "No", "No", "No", "No", "No")
 )
 kable(data_managementTable, col.names=c("Management", "Owner", "Member", "Outside collaborator"), align='l', booktaps=TRUE)%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
@@ -87,9 +87,9 @@ kable(data_managementTable, col.names=c("Management", "Owner", "Member", "Outsid
 ```{r organization access table Base repository rights, echo=FALSE}
 data_baserepositoryrightsTable <- data.frame(
   BaseRepositoryRights = c("Clone any repository", "Pull any repository", "Push/merge any repository", "Branch public repositories","Branch private repositories"),
-  Owner = c("X", "X", "X", "X", "X"),
-  Member = c("X", "X", "", "X", ""),
-  Outside_collaborator = c("", "", "", "", "")
+  Owner = c("Yes", "Yes", "Yes", "Yes", "Yes"),
+  Member = c("Yes", "Yes", "No", "Yes", "No"),
+  Outside_collaborator = c("No", "No", "No", "No", "No")
 )
 kable(data_baserepositoryrightsTable, col.names=c("Base repository rights", "Owner", "Member", "Outside collaborator"), align='l', booktaps=TRUE)%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
@@ -99,9 +99,9 @@ kable(data_baserepositoryrightsTable, col.names=c("Base repository rights", "Own
 ```{r organization access table Interaction, echo=FALSE}
 data_interactionTable <- data.frame(
   Management = c("Create discussions", "Comment discussions", "Delete issues", "Create teams","Manage teams", "Publish GitHub Pages sites"),
-  Owner = c("X", "X", "X", "X", "X", "X"),
-  Member = c("X", "X", "X", "X", "X", "X"),
-  Outside_collaborator = c("", "", "", "", "", "")
+  Owner = c("Yes", "Yes", "Yes", "Yes", "Yes", "Yes"),
+  Member = c("Yes", "Yes", "Yes", "Yes", "Yes", "Yes"),
+  Outside_collaborator = c("No", "No", "No", "No", "No", "No")
 )
 kable(data_interactionTable, col.names=c("Interaction", "Owner", "Member", "Outside collaborator"), align='l', booktaps=TRUE)%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
@@ -121,11 +121,11 @@ Although organization members have base reading rights, it is still necessary to
 ```{r repository access table, echo=FALSE}
 data_repositoryAccessTable <- data.frame(
   actions = c("Pull repository", "Branch repository", "Clone repository", "Comment","Manage issues", "Apply labels", "Manage labels", "Push/merge repository", "Manage comments", "Change repository visibility", "Change repository settings", "Manage collaborators"),
-  Read = c("X", "X", "X", "X", "X", "", "", "", "", "", "", ""),
-  Triage = c("X", "X", "X", "X", "X", "X", "", "", "", "", "", ""),
-  Write = c("X", "X", "X", "X", "X", "X", "X", "X", "X", "", "", ""),
-  Maintain = c("X", "X", "X", "X", "X", "X", "X", "X", "X", "", "", ""),
-  Admin = c("X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X")
+  Read = c("Yes", "Yes", "Yes", "Yes", "Yes", "No", "No", "No", "No", "No", "No", "No"),
+  Triage = c("Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "No", "No", "No", "No", "No", "No"),
+  Write = c("Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "No", "No", "No"),
+  Maintain = c("Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "No", "No", "No"),
+  Admin = c("Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes")
 )
 kable(data_repositoryAccessTable, col.names=c("", "Read", "Triage", "Write", "Maintain", "Admin"), align='l', booktaps=TRUE)%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
@@ -373,9 +373,9 @@ Using this structure, a uniform workflow can be established within the project d
 ```{r workflow table, echo=FALSE}
 data_workflowTable <- data.frame(
   Step = c("Step 1 - Import data (if necessary)", "Step 2 - Clean data", "Step 3 - Anayze data", "Step 4 - Create figures or results"),
-  UsingDataFrom = c("n/a", "'a. Raw data'", "'b. Cleaned data'", "'c. Analyzed data'"),
-  UsingScriptsOrFunctionFrom = c("'a. Import scripts'", "'b. Cleaning scripts'", "'c. Analysis scripts'", "'d. Figure scripts'"),
-  SavingNewDataOrResultsIn = c("'a. Raw data'", "'b. Cleaned data'", "'c. Analyzed data'", "'d. Figures & Results'")
+  UsingDataFrom = c("n/a", "a. Raw data", "b. Cleaned data", "c. Analyzed data"),
+  UsingScriptsOrFunctionFrom = c("a. Import scripts", "b. Cleaning scripts", "c. Analysis scripts", "d. Figure scripts"),
+  SavingNewDataOrResultsIn = c("a. Raw data", "b. Cleaned data", "c. Analyzed data", "d. Figures & Results")
 )
 kable(data_workflowTable, col.names=c("", "Using data from:", "Using scripts or functions from:", "Saving new data or results in:"), align='l', booktaps=TRUE)%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
@@ -465,7 +465,7 @@ code...
 
 Annotating code is important for a number of reasons. It helps to explain in detail what a line, chunk or even section of code is trying to accomplish. This is helpful for the user, or other people who read the code.
 
-Annotating code is done with the symbol # (hashtag), situated above a whole chunk of code, like when explaining the purpose of a certain function.
+Annotating code is done with the symbol # (number sign), situated above a whole chunk of code, like when explaining the purpose of a certain function.
 
 ```{r example script annotation, eval=FALSE}
 #Reactive values for user location
@@ -479,9 +479,10 @@ observeEvent(input$Map_click. {
   longitude_click <- input$Map_click$lng
   latitude_click <- input$Map_click$lat
   leafletProxy('Map')%>%
-  addMarkers(lng = input$Map_click$lng,
-  lat = input$Map_click$lat,
-  popup = paste("Longitude=", round(input$Map_click$lng,2), "and",))
+    clearMarkers()%>%
+    addMarkers(lng = input$Map_click$lng,
+              lat = input$Map_click$lat,
+              popup = paste("Longitude=", round(input$Map_click$lng, 2), "and", "Latittude=", round(input$Map_click$lat, 2)))
 })
 ```
 
@@ -500,7 +501,7 @@ Data Centre - Local Services & Projects
 ::: {class="flex-image-item"}
 
 ```{r, echo=FALSE}
-knitr::include_graphics("./images_manual_rstudio/VLIZ_logo_positief.png")
+knitr::include_graphics("./images_manual_GitHub/VLIZ_logo_positief.png")
 ```
 
 :::
@@ -546,7 +547,7 @@ Data Centre - Local Services & Projects
 ::: {class="flex-image-item"}
 
 ```{r, echo=FALSE}
-knitr::include_graphics("./images_manual_rstudio/VLIZ_logo_positief.png")
+knitr::include_graphics("./images_manual_GitHub/VLIZ_logo_positief.png")
 ```
 
 :::

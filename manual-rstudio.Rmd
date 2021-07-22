@@ -7,7 +7,7 @@ output:
     toc_float: true
     number_section: true
     css: "style.css"
-date:  "Written, maintained and updated by VLIZ - Version 2 (`r format(Sys.time(), '%d/%m/%Y')`)"
+date:  "Written, maintained and updated by the ScheldeMonitor team of VLIZ - Version 3 (`r format(Sys.time(), '%d/%m/%Y')`)"
 ---
 
 ```{r setup, include=FALSE}
@@ -18,13 +18,13 @@ knitr::opts_chunk$set(echo = TRUE, fig.align = 'center')
 
 # About
 
-This document was written as a manual on the use of the online RStudio environment of the ScheldeMonitor information and data portal. This environment has been accessible through the ScheldeMonitor website since 2021. It provides accredited researchers and the partners of ScheldeMonitor with a centralized RStudio hub to do analysis and build up scripts directly based on the data and information that is held within the portal and the underlying database.
+This document was written as a manual on the use of the online RStudio environment of the ScheldeMonitor information and data portal. This environment has been accessible through the ScheldeMonitor [website](https://www.scheldemonitor.org/en) since 2021. It provides accredited researchers and the partners of ScheldeMonitor with a centralized RStudio hub to do analysis and build up scripts directly based on the data and information that is held within the portal and the underlying database.
 
 Within the manual, guidelines are provided for new users or users that are inexperienced in the use of RStudio, as well as some overall recommendations on how to keep work in RStudio structurized and comprehensible. The last chapter of this manual also provides a step-by-step breakdown on how to load data from ScheldeMonitor into the RStudio workspace.
 
 The RStudio environment can be accessed from the website, using the following [link](https://www.scheldemonitor.org/en/data-analysis-platform). To access, credentials are required. These credentials can be requested [here](https://rshiny.lifewatch.be/account?p=register), or by sending a mail to info@scheldemonitor.org with a statement on the reason why use of the RStudio environment is required.
 
-It is also possible to link the RStudio environment with an existing project from the ScheldeMonitor GitHub organization. How to work with GitHub in relation with RStudio, is discussed in an additional RStudio [manual](https://www.scheldemonitor.org/sites/scheldemonitor.be/files/2020-12/manual-github.pdf).
+It is also possible to link the RStudio environment with an existing project from the ScheldeMonitor GitHub organization. How to work with GitHub in relation with RStudio, is discussed in an additional GitHub [manual](https://www.scheldemonitor.org/sites/scheldemonitor.be/files/2020-12/manual-github.pdf).
 
 # Connecting to the RStudio environment of ScheldeMonitor
 
@@ -36,7 +36,7 @@ knitr::include_graphics("./images_manual_rstudio/image1_sign_in_to_rstudio.png")
 
 These credentials are similar to those used for all other tools within the ScheldeMonitor platform, such as the data download toolbox and the E-room. 
 
-New users should first register to receive their personal credentials. This can be done using this [link](https://rshiny.lifewatch.be/account?p=register) or by contacting the [helpdesk](#helpdesk) of ScheldeMonitor stating the reason to use the RStudio environment.
+New users should first register to receive their personal credentials. This can be done using this [link](https://rshiny.lifewatch.be/account?p=register) or by contacting the [helpdesk](#helpdesk) of ScheldeMonitor stating a reason to use the RStudio environment.
 
 The following information is needed to register on the RStudio environment of ScheldeMonitor:
 
@@ -90,7 +90,7 @@ To change the working directory, you can run the command setwd() in the RStudio 
 setwd("//fs/HOME/jeller")
 ```
 
-You can also change the working directory by selecting the “Tools” menu and “Change Working Directory”. For users with Mac, this is found in the “Session” menu and the “Set Working Directory”.
+You can also change the working directory by selecting the “Session” menu and “Set Working Directory”.
 Be careful to consider the side effects of changing your working directory:
 
 - Relative file references in your code (for data sets, source files, etc.) will become invalid when you change working directories.
@@ -134,53 +134,23 @@ knitr::include_graphics("./images_manual_rstudio/image5_rstudio_new_project_proj
 knitr::include_graphics("./images_manual_rstudio/image6_rstudio_new_project_name.png")
 ```
 
-### Set up an existing GitHub project
 
-If a project needs to be user-controlled and accessible by multiple users, it is best practice to create a repository on GitHub. Setting up a personal GitHub repository is beyond the scope of this manual. However, as ScheldeMonitor has created a GitHub organization, a dedicated manual on the use of GitHub is available on the [website](https://www.scheldemonitor.org/en/data-analysis-platform).
 
-To connect your personal space of the RStudio environment on ScheldeMonitor to a known GitHub repository, the following steps need to be taken:
+### Connect the RStudio environment of ScheldeMonitor to GitHub using SSH authentication
 
-1. Open the “File” menu and select “New Project”.
-
-```{r echo=FALSE, out.width='50%'}
-knitr::include_graphics("./images_manual_rstudio/image3_rstudio_file_menu.png")
-```
-
-2. In the New Project Wizard, select the option “Version Control”.
-
-```{r echo=FALSE, out.width='60%'}
-knitr::include_graphics("./images_manual_rstudio/image4_rstudio_new_project_wizard.png")
-```
-
-3. Next, select “Git” as this is the version controlled methodology used within the context of ScheldeMonitor.
-
-```{r echo=FALSE, out.width='60%'}
-knitr::include_graphics("./images_manual_rstudio/image7_rstudio_new_project_wizard_version_control.png")
-```
-
-4. To establish a connection between your personal RStudio environment and the GitHub repository, the system needs to know from which online space the repository can be downloaded. This URL matches the online repository on https://github.com/. Additionally, the system needs a local directory to store the downloaded files, or to hold up the files that have not been uploaded back to the repository yet.
-
-```{r echo=FALSE, out.width='60%'}
-knitr::include_graphics("./images_manual_rstudio/image8_rstudio_new_project_wizard_clone_git_repository.png")
-```
-
-## Connect the RStudio environment of ScheldeMonitor to GitHub using SSH authentication
-
-### Disclaimer
+#### Disclaimer
 
 This manual was written for the users of the online [RStudio environment of ScheldeMonitor](https://rstudio.scheldemonitor.org/auth-sign-in). The procedure and affiliated scripts have been deployed on the server of this environment, so that users do not need to install anything to execute the procedure. This implies that this procedure will not work on other (local) RStudio environments or servers. Users that want to execute the procedure within another RStudio environment, not affiliated to the ScheldeMonitor server, can request a Git-bundle of the scripts at info@scheldemonitor.org. 
 
-### Reason for SSH authenticatie
+#### Reason for SSH authentication
 
-In 2019, the [ScheldeMonitor](https://www.scheldemonitor.org/en) data and information portal has been given the assignment to set up a [GitHub repository](https://github.com/scheldemonitor/) and online [RStudio environment](https://rstudio.scheldemonitor.org/auth-sign-in), available to researchers that conduct analyses on the data and information available within the portal. This ‘Data Analysis Platform’ can be accessed via the ScheldeMonitor [website](https://www.scheldemonitor.org/en/data-analysis-platform).
-
-In 2020, GitHub announced that it would no longer accept account passwords when authenticating with the REST API and will require the use of token-based authentication. This implies that when using the combination of the ScheldeMonitor RStudio workspace (https://rstudio.scheldemonitor.org/) with the GitHub repository, all actions (e.g. pull, push, commit) will require a different kind of authentication than standardly used.
+In 2020, GitHub announced that it would no longer accept account passwords when authenticating with the REST API and will require the use of token-based authentication. This implies that when using the combination of the ScheldeMonitor RStudio [workspace](https://rstudio.scheldemonitor.org/) with the GitHub repository, all actions (e.g. pull, push, commit) will require a different kind of authentication than standardly used.
 
 VLIZ has identified that setting up a SSH key would be the best way for users moving forward. This manual explains in detail the one-time procedure that is needed for a correct setup. This procedure involves four scripts that need to be run by a user from within the terminal of the RStudio environment of ScheldeMonitor. 
 
-### Accessing the RStudio terminal
+#### Accessing the RStudio terminal
 
-The ScheldeMonitor environment can be accessed by following the steps described in the chapter [connecting to the RStudio environment of ScheldeMonitor](#connecting_ _to_the_rstudio_environment_of_scheldemonitor)
+The ScheldeMonitor environment can be accessed by following the steps described in the chapter [Connecting to the RStudio environment of ScheldeMonitor](#connecting_ _to_the_rstudio_environment_of_scheldemonitor)
 
 Once within the workspace, switch the console to the terminal window by clicking the ‘Terminal’ tab on top of the window. This window is where you will conduct all necessary command lines:
 
@@ -188,11 +158,11 @@ Once within the workspace, switch the console to the terminal window by clicking
 knitr::include_graphics("./images_manual_rstudio/image8a_rstudio_terminal.png")
 ```
 
-### Setting up a SSH key
+#### Setting up a SSH key
 
 1. Generate key pair
 
-If users have never made a SSH key before within this RStudio environment, they need to run the **‘make-git-sshkey.sh’** script. This script will generate a standard named key pair to use for connecting to git services. 
+If users have never made a SSH key before within this RStudio environment, they need to run the ‘make-git-sshkey.sh’ script. This script will generate a standard named key pair to use for connecting to git services. 
 
 To run, execute the following command in the terminal:
 
@@ -208,7 +178,7 @@ knitr::include_graphics("./images_manual_rstudio/image8b_message_keypair_generat
 
 2. Register key pair
 
-Next, the user will need to register the generated key pair on GitHub online. To do so, the script **‘connect-sshkey.sh’** can be used to correctly configure locally and advice the user towards how to publicly register the public part of the key at the service of the user’s choice (defaults to GitHub). 
+Next, the user will need to register the generated key pair on GitHub online. To do so, the script ‘connect-sshkey.sh’ can be used to correctly configure locally and advice the user towards how to publicly register the public part of the key at the service of the user’s choice (defaults to GitHub). 
 
 To run, execute the following command in the terminal:
 
@@ -224,7 +194,7 @@ knitr::include_graphics("./images_manual_rstudio/image8c_message_register_keypai
 
 3. Copy key
 
-As stated in the message, copy the text between the two ‘----‘. 
+As stated in the message, copy the text between the two '\--\--'. 
 
 4. Add key to GitHub
 
@@ -268,7 +238,7 @@ knitr::include_graphics("./images_manual_rstudio/image8g_message_sshkey_complete
 
 The workspace is now connected via SSH. The user can now start working through SSH in new projects or convert already connected projects to SSH. Both methods are explained in the following chapters. 
 
-### Apply SSH authentication to new projects
+#### Apply SSH authentication to new projects
 
 From now on new projects should immediately start off by using the correct remote origin-url. The steps below explain how to do that.
 
@@ -290,7 +260,7 @@ knitr::include_graphics("./images_manual_rstudio/image4_rstudio_new_project_wiza
 knitr::include_graphics("./images_manual_rstudio/image7_rstudio_new_project_wizard_version_control.png")
 ```
 
-4. Paste the URL of the repository in the ‘Repository URL’ field. In many cases, users paste the HTTPS URL of the repository. However, when using SSH authentication, the SSH URL needs to be pasted instead. This SSH URL can be found on the homescreen of the online repository, by selecting the green ‘Code’ button and the SSH option: 
+4. Paste the URL of the repository in the ‘Repository URL’ field. In many cases, users paste the HTTPS URL of the repository. However, when using SSH authentication, the SSH URL needs to be pasted instead. This SSH URL can be found on the homescreen of the online repository, by selecting the green ‘Code’ button and the SSH option.
 
 ```{r echo=FALSE, out.width='80%'}
 knitr::include_graphics("./images_manual_rstudio/image8h_github_sshkey_url.png")
@@ -298,7 +268,7 @@ knitr::include_graphics("./images_manual_rstudio/image8h_github_sshkey_url.png")
 
 After choosing a name for your project locally, as well as a location, the project can be created. 
 
-### Converting existing projects to SSH authentication
+#### Converting existing projects to SSH authentication
 
 Projects were already connected to the RStudio workspace, before converting to SSH, will still work through HTTPS. To change this, open an existing project that you wish to convert in the RStudio environment. This can be done in the upper right corner of the screen: 
 
@@ -306,7 +276,7 @@ Projects were already connected to the RStudio workspace, before converting to S
 knitr::include_graphics("./images_manual_rstudio/image8i_rstudio_open_existing_project.png")
 ```
 
-Once the project is opened, the script **‘fix-gitssh.sh’** can be used which will easily switch the connection to your project to git-ssh, and in the process figure out what service it is connected to. 
+Once the project is opened, the script ‘fix-gitssh.sh’ can be used which will easily switch the connection to your project to git-ssh, and in the process figure out what service it is connected to. 
 
 ```{r eval=FALSE}
 fix-gitssh.sh
@@ -345,9 +315,9 @@ Using this structure, a uniform workflow can be established within the project d
 ```{r workflow table, echo=FALSE}
 data_workflowTable <- data.frame(
   Step = c("Step 1 - Import data (if necessary)", "Step 2 - Clean data", "Step 3 - Anayze data", "Step 4 - Create figures or results"),
-  UsingDataFrom = c("n/a", "'a. Raw data'", "'b. Cleaned data'", "'c. Analyzed data'"),
-  UsingScriptsOrFunctionFrom = c("'a. Import scripts'", "'b. Cleaning scripts'", "'c. Analysis scripts'", "'d. Figure scripts'"),
-  SavingNewDataOrResultsIn = c("'a. Raw data'", "'b. Cleaned data'", "'c. Analyzed data'", "'d. Figures & Results'")
+  UsingDataFrom = c("n/a", "a. Raw data'", "'b. Cleaned data", "c. Analyzed data"),
+  UsingScriptsOrFunctionFrom = c("a. Import scripts", "b. Cleaning scripts", "c. Analysis scripts", "d. Figure scripts"),
+  SavingNewDataOrResultsIn = c("a. Raw data", "b. Cleaned data", "c. Analyzed data", "d. Figures & Results")
 )
 kable(data_workflowTable, col.names=c("", "Using data from:", "Using scripts or functions from:", "Saving new data or results in:"), align='l', booktaps=TRUE)%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
@@ -356,7 +326,7 @@ kable(data_workflowTable, col.names=c("", "Using data from:", "Using scripts or 
 
 It is possible that users rather run a single script to go through all these steps, especially in smaller projects. In this case, a ‘Main.R’ script can be saved alongside the ‘Data’ and ‘Scripts’ folders. This main script can then run through all these steps on its own, while sourcing different data files and functions from the underlying folder structure. The latter is especially important in larger projects, to ensure that the length and readability of the main scripts is optimal. When doing so, it is very important that the main script is well structured and annotated, as will be further explained in [Script structure](#script_structure) and [Script annotations](#script_annotations) below.
 
-In any case, only one ‘main.R’ file should be present as to not create confusion.
+In any case, only one ‘Main.R’ file should be present as to not create confusion.
 
 ### Script naming
 
@@ -395,7 +365,7 @@ Similar to a directory, an individual script can greatly benefit from a fixed an
 - Who, when, what and how: This is a large heading that should start every script in your project, stating who wrote the script, when it was written, how to contact the writer and what its purpose is.
 - 0 – Load libraries: In this section all libraries are listed that need to be loaded before running the whole script. This section can also give some further explanation on the use of those libraries.
 - 1 – Static part: In this part, all static actions are taken such as loading in data files, preparing those data files for analysis, sourcing other scripts and functions or naming arguments that will be used later on in the script.
-- 2 – Script: This section contains the actual code that makes the script fulfill its purpose
+- 2 – Script: This section contains the actual code that makes the script fulfill its purpose.
 
 ```{r example1 script structure, eval=FALSE}
 ######################################################################
@@ -434,44 +404,11 @@ Note that the sourced files in the example above are using the directory structu
 
 These headings not only give a fixed structure and order to all scripts in the project, it also has the added advantage that sections can be collapsed or expanded if needed. Especially for longer scripts, in which certain sections of the code are not of interest to the user, this can greatly increase the readability of the script:
 
-```{r example1 script structure collapsed sections, eval=FALSE, include=FALSE}
-######################################################################
-## This is an example for the manual
-##
-## written by Jelle Rondelez of VLIZ
-## info@scheldemonitor.org - Oct 2020
-######################################################################
-
-##############################
-# 0 - Load libraries
-##############################
-library(dplyr) # package to clean datatable
-library(lubridate) # package to change date formats
-
-##############################
-# 1 - Static part
-##############################
-
-#Assign variable
-newvar <- ""
-
-#Source script from within directory
-source("Script/a. Import scripts/ImportWFS")
-
-#Open datafile
-datafile <- read.csv(file = "Data/b. Cleaned data/dataRWS.csv")
-
-##############################
-# 2- Scripts
-##############################
-code...
-```
-
 ```{r echo=FALSE, out.width='70%'}
 knitr::include_graphics("./images_manual_rstudio/image13a_collapsed_code_sections.png")
 ```
 
-Larger scripts can benefit more from an expanded structure with additional headings. This is especially true for ‘main.R’ scripts that run through all phases of the project within a single script, as discussed in [Directory structure](#directory_structure). Those type of scripts typically source and use a multitude of different functions and files. An extended structure can make these scripts more readable and can make it easier to search for a specific function or action:
+Larger scripts can benefit more from an expanded structure with additional headings. This is especially true for ‘Main.R’ scripts that run through all phases of the project within a single script, as discussed in [Directory structure](#directory_structure). Those type of scripts typically source and use a multitude of different functions and files. An extended structure can make these scripts more readable and can make it easier to search for a specific function or action:
 
 ```{r example2 script structure, eval=FALSE}
 ######################################################################
@@ -536,7 +473,7 @@ observeEvent(input$Map_click, {
     clearMarkers() %<%
     addMarkers(lng = input$Map_click$lng,
                lat = input$Map_click$lat,
-               popup = paste("Longitude=", round(input$Map_click$lng,2), "and"))
+               popup = paste("Longitude=", round(input$Map_click$lng, 2), "and", "Latitude=", round(input$Map_click$lat, 2)))
 })
 ```
 
@@ -568,8 +505,6 @@ write.table(results, output_file)
 is preferable to:
 
 ```{r example bad hardcoding, eval=FALSE}
-input_file <- "data/data.csv"
-outpu_file <- "data/result.csv"
 
 #read input
 input_data <- read.csv("data/data.csv")
@@ -581,7 +516,7 @@ sample_number <- nrow(input_data)
 results <- some_other_function("data/data.csv", sample_number)
 
 #write results
-write.table("data/results.csv", output_file)
+write.table(results, "data/result.csv")
 ```
 
 ### Naming conventions
@@ -623,7 +558,7 @@ mean (x, na.rm = TRUE)
 mean( x, na.rm = TRUE )
 ```
 
-- Place a space before and after () when used with if, for and while.
+- Place a space before and after () when used with 'if', 'for' and 'while'.
 
 ```{r example spacing and if for while, eval=FALSE}
 # Good
@@ -648,7 +583,7 @@ function (x) {}
 function(x){}
 ```
 
-- Most infix operators (==, +, -, <-, etc.) should always be surrounded by spaces:
+- Most infix operators (=, +, -, <-, etc.) should always be surrounded by spaces:
 
 ```{r spacing and infix operators, eval=FALSE}
 # Good
@@ -722,7 +657,7 @@ library(dyplr)
 data(babynames)
 
 #Count how many young boys with the name "Taylor" are born
-sum(select(filter(babynames, sex=="M", name=="Taylor"), n ))
+sum(select(filter(babynames, sex=="M", name=="Taylor"), n))
 
 #Do the same but now with '%>%'
 babaynames%>%filter(sex=="M", name=="Taylor")%>%
@@ -758,7 +693,7 @@ The following window will now be visible:
 knitr::include_graphics("./images_manual_rstudio/image15_style_guide_lintr.png")
 ```
 
-It is recommended to use the 'styler' package first, followed by the 'lintr' package. Because the 'styler' package automatically corrects style errors such as the incorrect use of spaces and commas. Hence, the list of errors, that need to be manually corrected, generated by the 'lintr' package is shorter.
+It is recommended to use the 'styler' package first, followed by the 'lintr' package. Because the 'styler' package automatically corrects style errors such as the incorrect use of spaces and commas. Hence, the list of errors generated by the 'lintr' package, that need to be manually corrected, is shorter.
 
 # Using data from ScheldeMonitor in RStudio
 
@@ -776,7 +711,7 @@ knitr::include_graphics("./images_manual_rstudio/image16_scheldemonitor_homescre
 knitr::include_graphics("./images_manual_rstudio/image16a_scheldemonitor_data_toolbox_explore.png")
 ```
 
-It is not mandatory to select a datasource, geographical area or time period in the explore tab. In the next tab (accessible via the green “next” button) a specific taxon (biotic data) or parameter (abiotic data) can be selected.Dataset, parameters, or taxa can be added to your selection with the plus sign on the right of the dataset, parameter, or taxon.
+It is not mandatory to select a datasource, geographical area or time period in the explore tab. In the next tab (accessible via the green “next” button) a specific taxon (biotic data) or parameter (abiotic data) can be selected. Datasets, parameters, or taxa can be added to your selection with the plus sign on the right of the dataset, parameter, or taxon.
 
 When criteria are selected, the counter on the right side of the screen shows the remaining number of records that match the chosen criteria.
 
