@@ -63,9 +63,9 @@ When eligible for membership within the ScheldeMonitor GitHub organization, a us
 ```{r organization access table Visibility, echo=FALSE}
 data_visibilityTable <- data.frame(
   Visibility = c("See organization", "See public repositories", "See private repositories", "See members","Change repository visibility"),
-  Owner = c("Yes", "Yes", "Yes", "Yes", "Yes"),
-  Member = c("Yes", "Yes", "Yes", "Yes", "No"),
-  Outside_collaborator = c("Yes", "Yes", "No", "Yes", "No")
+  Owner = c("X", "X", "X", "X", "X"),
+  Member = c("X", "X", "X", "X", ""),
+  Outside_collaborator = c("X", "X", "", "X", "")
 )
 kable(data_visibilityTable, col.names=c("Visibility", "Owner", "Member", "Outside collaborator"), align='l', booktaps=TRUE)%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
@@ -75,9 +75,9 @@ kable(data_visibilityTable, col.names=c("Visibility", "Owner", "Member", "Outsid
 ```{r organization access table Management, echo=FALSE}
 data_managementTable <- data.frame(
   Management = c("Manage members", "Manage collaborators", "Create public repository", "Create private repository","Delete repositories", "Transfer repositories"),
-  Owner = c("Yes", "Yes", "Yes", "Yes", "Yes", "Yes"),
-  Member = c("No", "No", "No", "No", "No", "No"),
-  Outside_collaborator = c("No", "No", "No", "No", "No", "No")
+  Owner = c("X", "X", "X", "X", "X", "X"),
+  Member = c("", "", "", "", "", ""),
+  Outside_collaborator = c("", "", "", "", "", "")
 )
 kable(data_managementTable, col.names=c("Management", "Owner", "Member", "Outside collaborator"), align='l', booktaps=TRUE)%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
@@ -87,9 +87,9 @@ kable(data_managementTable, col.names=c("Management", "Owner", "Member", "Outsid
 ```{r organization access table Base repository rights, echo=FALSE}
 data_baserepositoryrightsTable <- data.frame(
   BaseRepositoryRights = c("Clone any repository", "Pull any repository", "Push/merge any repository", "Branch public repositories","Branch private repositories"),
-  Owner = c("Yes", "Yes", "Yes", "Yes", "Yes"),
-  Member = c("Yes", "Yes", "No", "Yes", "No"),
-  Outside_collaborator = c("No", "No", "No", "No", "No")
+  Owner = c("X", "X", "X", "X", "X"),
+  Member = c("X", "X", "", "X", ""),
+  Outside_collaborator = c("", "", "", "", "")
 )
 kable(data_baserepositoryrightsTable, col.names=c("Base repository rights", "Owner", "Member", "Outside collaborator"), align='l', booktaps=TRUE)%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
@@ -99,9 +99,9 @@ kable(data_baserepositoryrightsTable, col.names=c("Base repository rights", "Own
 ```{r organization access table Interaction, echo=FALSE}
 data_interactionTable <- data.frame(
   Management = c("Create discussions", "Comment discussions", "Delete issues", "Create teams","Manage teams", "Publish GitHub Pages sites"),
-  Owner = c("Yes", "Yes", "Yes", "Yes", "Yes", "Yes"),
-  Member = c("Yes", "Yes", "Yes", "Yes", "Yes", "Yes"),
-  Outside_collaborator = c("No", "No", "No", "No", "No", "No")
+  Owner = c("X", "X", "X", "X", "X", "X"),
+  Member = c("X", "X", "X", "X", "X", "X"),
+  Outside_collaborator = c("", "", "", "", "", "")
 )
 kable(data_interactionTable, col.names=c("Interaction", "Owner", "Member", "Outside collaborator"), align='l', booktaps=TRUE)%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
@@ -121,11 +121,11 @@ Although organization members have base reading rights, it is still necessary to
 ```{r repository access table, echo=FALSE}
 data_repositoryAccessTable <- data.frame(
   actions = c("Pull repository", "Branch repository", "Clone repository", "Comment","Manage issues", "Apply labels", "Manage labels", "Push/merge repository", "Manage comments", "Change repository visibility", "Change repository settings", "Manage collaborators"),
-  Read = c("Yes", "Yes", "Yes", "Yes", "Yes", "No", "No", "No", "No", "No", "No", "No"),
-  Triage = c("Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "No", "No", "No", "No", "No", "No"),
-  Write = c("Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "No", "No", "No"),
-  Maintain = c("Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "No", "No", "No"),
-  Admin = c("Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes")
+  Read = c("X", "X", "X", "X", "X", "", "", "", "", "", "", ""),
+  Triage = c("X", "X", "X", "X", "X", "X", "", "", "", "", "", ""),
+  Write = c("X", "X", "X", "X", "X", "X", "X", "X", "X", "", "", ""),
+  Maintain = c("X", "X", "X", "X", "X", "X", "X", "X", "X", "", "", ""),
+  Admin = c("X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X")
 )
 kable(data_repositoryAccessTable, col.names=c("", "Read", "Triage", "Write", "Maintain", "Admin"), align='l', booktaps=TRUE)%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
