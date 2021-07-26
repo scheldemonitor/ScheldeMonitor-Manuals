@@ -6,71 +6,9 @@ output:
     toc_float: true
     number_section: true
     highlight: haddock
+    css: "style.css"
 date:  "Written, maintained and updated by the ScheldeMonitor team of VLIZ - Version 1 (`r format(Sys.time(), '%d/%m/%Y')`)"
 ---
-
-<style>
-body{
-  text-align: left;
-  font-family: Nunito Sans;
-  font-size: 13pt;
-}
-
-h1{
-  color:#0A7BC1;
-  font-weight: bold;
-  font-family: Nunito Sans;
-  text-decoration: underline;
-}
-
-h1.title{
-  color: #0A7BC1;
-  font-weight: bold;
-  font-size: 42pt;
-  font-family: Nunito Sans;
-  text-decoration: none;
-}
-
-h2{
-  font-weight: bold;
-  font-family: Nunito Sans;
-}
-
-h4.date{
-  text-align: left;
-  font-family: Nunito Sans;
-}
-
-.no-spacing{
-  font-family: Nunito Sans;
-  text-align: left;
-  line-height: 10pt;
-}
-
-.flex-container{
-  display: flex;
-  justify-content: space-between;
-  align-item: flex-start;
-}
-
-.flex-image-item{
-  width: 200px;
-  height: 200px;
-  margin: auto;
-  margin-top: 15px;
-}
-
-.flex-text-item{
-  font-family: Nunito Sans;
-  width: 200px;
-  height: 200px;
-  margin: auto;
-  margin-top: 15px;
-  line-height: 12pt;
-  font-size: 12pt;
-  text-align: left;
-}
-</style>
 
 ```{r setup, include=FALSE}
 library(knitr)
