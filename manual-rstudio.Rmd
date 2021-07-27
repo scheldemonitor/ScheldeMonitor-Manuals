@@ -1,12 +1,19 @@
 ---
 title: "ScheldeMonitor Manual: Using the RStudio environment"
-output: 
+output:
   html_document:
-    highlight: haddock
     toc: true
     toc_float: true
     number_section: true
+    highlight: haddock
     css: "style.css"
+  pdf_document:
+    toc: true
+    number_section: true
+    highlight: haddock
+    extra_dependencies: ["multicol"]
+    includes:
+      in_header: mystyle.sty
 date:  "Written, maintained and updated by the ScheldeMonitor team of VLIZ - Version 3 (`r format(Sys.time(), '%d/%m/%Y')`)"
 ---
 
@@ -319,7 +326,7 @@ data_workflowTable <- data.frame(
   UsingScriptsOrFunctionFrom = c("a. Import scripts", "b. Cleaning scripts", "c. Analysis scripts", "d. Figure scripts"),
   SavingNewDataOrResultsIn = c("a. Raw data", "b. Cleaned data", "c. Analyzed data", "d. Figures & Results")
 )
-kable(data_workflowTable, col.names=c("", "Using data from:", "Using scripts or functions from:", "Saving new data or results in:"), align='l', booktaps=TRUE)%>%
+kable(data_workflowTable, col.names=c("", "Using data from:", "Using scripts or functions from:", "Saving new data or results in:"), align='l')%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
   column_spec(1, bold = TRUE)
 ```
@@ -473,7 +480,9 @@ observeEvent(input$Map_click, {
     clearMarkers() %<%
     addMarkers(lng = input$Map_click$lng,
                lat = input$Map_click$lat,
-               popup = paste("Longitude=", round(input$Map_click$lng, 2), "and", "Latitude=", round(input$Map_click$lat, 2)))
+               popup = paste("Longitude=", round(input$Map_click$lng, 2),
+                             "and",
+                             "Latitude=", round(input$Map_click$lat, 2)))
 })
 ```
 
@@ -823,7 +832,8 @@ dataset <- data.frame()
 years <- c("2016","2017","2018","2019","2020","2021")
 
 #This is a test string. Replace it with your own string
-#The timespan of the original wfs string should run from 1 Jan tot 31 Dec, no matter which years are selected
+#The timespan of the original wfs string should run from 1 Jan tot 31 Dec
+#no matter which years are selected
 wfsstring <- "http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=Dataportal%3Aabiotic_observations&resultType=results&viewParams=where%3Aobs.context+%26%26+ARRAY%5B1%5D+AND+standardparameterid+IN+%281073%29+AND+%28%28datetime_search+BETWEEN+%272016-01-01%27+AND+%272021-12-31%27+%29%29%3Bcontext%3A0001&propertyName=stationname%2Clongitude%2Clatitude%2Cdatetime%2Cdepth%2Cparametername%2Cvaluesign%2Cvalue%2Cdataprovider%2Cdatasettitle&outputFormat=csv"
 
 #This for loop results in the download of yearly datasets.
@@ -832,7 +842,8 @@ wfsstring <- "http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.1.0&req
 #example: 'years[i+1] downloads data for two year spans
 
 for (i in 1:length(years)) {
-  wfsstring <- str_replace(wfsstring,"(?<=%27).*(?=-12-31)",paste(years[i],"-01-01%27+AND+%27",years[i],sep=""))
+  wfsstring <- str_replace(wfsstring,"(?<=%27).*(?=-12-31)",
+                           paste(years[i],"-01-01%27+AND+%27",years[i],sep=""))
   name <- paste(years[i])
   data <- data.frame(st_read(wfsstring))
   dataset <- rbind(data,dataset)
@@ -850,17 +861,17 @@ To accommodate these and other needs of users and contributors, VLIZ will have a
 
 Data Centre - Local Services & Projects
 
-:::: {class="flex-container"}
+:::: {.multicols data-latex="{3}" class="flex-container"}
 
-::: {class="flex-image-item"}
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-image-item"}
 
-```{r, echo=FALSE}
-knitr::include_graphics("./images_manual_rstudio/VLIZ_logo_positief.png")
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("./images_manual_GitHub/VLIZ_logo_positief.png")
 ```
 
 :::
 
-::: {class="flex-text-item"}
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-text-item"}
 
 **Vlaams Instituut voor de Zee vzw**
 
@@ -872,7 +883,7 @@ InnovOcean site, Wandelaarkaai 7
 
 :::
 
-::: {class="flex-text-item"}
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-text-item"}
 
 T +32(0)59340172
 
@@ -896,17 +907,17 @@ Data Centre - Local Services & Projects
 
 :::
 
-:::: {class="flex-container"}
+:::: {.multicols data-latex="{3}" class="flex-container"}
 
-::: {class="flex-image-item"}
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-image-item"}
 
-```{r, echo=FALSE}
-knitr::include_graphics("./images_manual_rstudio/VLIZ_logo_positief.png")
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("./images_manual_GitHub/VLIZ_logo_positief.png")
 ```
 
 :::
 
-::: {class="flex-text-item"}
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-text-item"}
 
 **Vlaams Instituut voor de Zee vzw**
 
@@ -918,7 +929,7 @@ InnovOcean site, Wandelaarkaai 7
 
 :::
 
-::: {class="flex-text-item"}
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-text-item"}
 
 M +32(0)473510828
 

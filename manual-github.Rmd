@@ -1,6 +1,13 @@
 ---
 title: 'ScheldeMonitor Manual: GitHub repository - T2021'
-output: 
+output:
+  pdf_document:
+    toc: true
+    number_section: true
+    highlight: haddock
+    extra_dependencies: ["multicol"]
+    includes:
+      in_header: mystyle.sty
   html_document:
     toc: true
     toc_float: true
@@ -67,7 +74,7 @@ data_visibilityTable <- data.frame(
   Member = c("X", "X", "X", "X", ""),
   Outside_collaborator = c("X", "X", "", "X", "")
 )
-kable(data_visibilityTable, col.names=c("Visibility", "Owner", "Member", "Outside collaborator"), align='l', booktaps=TRUE)%>%
+kable(data_visibilityTable, col.names=c("Visibility", "Owner", "Member", "Outside collaborator"), align='l')%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
   column_spec(1, bold = TRUE)
 ```
@@ -79,7 +86,7 @@ data_managementTable <- data.frame(
   Member = c("", "", "", "", "", ""),
   Outside_collaborator = c("", "", "", "", "", "")
 )
-kable(data_managementTable, col.names=c("Management", "Owner", "Member", "Outside collaborator"), align='l', booktaps=TRUE)%>%
+kable(data_managementTable, col.names=c("Management", "Owner", "Member", "Outside collaborator"), align='l')%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
   column_spec(1, bold = TRUE)
 ```
@@ -91,7 +98,7 @@ data_baserepositoryrightsTable <- data.frame(
   Member = c("X", "X", "", "X", ""),
   Outside_collaborator = c("", "", "", "", "")
 )
-kable(data_baserepositoryrightsTable, col.names=c("Base repository rights", "Owner", "Member", "Outside collaborator"), align='l', booktaps=TRUE)%>%
+kable(data_baserepositoryrightsTable, col.names=c("Base repository rights", "Owner", "Member", "Outside collaborator"), align='l')%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
   column_spec(1, bold = TRUE)
 ```
@@ -103,7 +110,7 @@ data_interactionTable <- data.frame(
   Member = c("X", "X", "X", "X", "X", "X"),
   Outside_collaborator = c("", "", "", "", "", "")
 )
-kable(data_interactionTable, col.names=c("Interaction", "Owner", "Member", "Outside collaborator"), align='l', booktaps=TRUE)%>%
+kable(data_interactionTable, col.names=c("Interaction", "Owner", "Member", "Outside collaborator"), align='l')%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
   column_spec(1, bold = TRUE)
 ```
@@ -127,7 +134,7 @@ data_repositoryAccessTable <- data.frame(
   Maintain = c("X", "X", "X", "X", "X", "X", "X", "X", "X", "", "", ""),
   Admin = c("X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X")
 )
-kable(data_repositoryAccessTable, col.names=c("", "Read", "Triage", "Write", "Maintain", "Admin"), align='l', booktaps=TRUE)%>%
+kable(data_repositoryAccessTable, col.names=c("", "Read", "Triage", "Write", "Maintain", "Admin"), align='l')%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
   column_spec(1, bold = TRUE)
 ```
@@ -377,7 +384,7 @@ data_workflowTable <- data.frame(
   UsingScriptsOrFunctionFrom = c("a. Import scripts", "b. Cleaning scripts", "c. Analysis scripts", "d. Figure scripts"),
   SavingNewDataOrResultsIn = c("a. Raw data", "b. Cleaned data", "c. Analyzed data", "d. Figures & Results")
 )
-kable(data_workflowTable, col.names=c("", "Using data from:", "Using scripts or functions from:", "Saving new data or results in:"), align='l', booktaps=TRUE)%>%
+kable(data_workflowTable, col.names=c("", "Using data from:", "Using scripts or functions from:", "Saving new data or results in:"), align='l')%>%
   kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
   column_spec(1, bold = TRUE)
 ```
@@ -482,7 +489,9 @@ observeEvent(input$Map_click. {
     clearMarkers()%>%
     addMarkers(lng = input$Map_click$lng,
               lat = input$Map_click$lat,
-              popup = paste("Longitude=", round(input$Map_click$lng, 2), "and", "Latittude=", round(input$Map_click$lat, 2)))
+              popup = paste("Longitude=", round(input$Map_click$lng, 2),
+                            "and", 
+                            "Latittude=", round(input$Map_click$lat, 2)))
 })
 ```
 
@@ -496,17 +505,17 @@ To manage these and other needs of users and contributors, VLIZ will have a perm
 
 Data Centre - Local Services & Projects
 
-:::: {class="flex-container"}
+:::: {.multicols data-latex="{3}" class="flex-container"}
 
-::: {class="flex-image-item"}
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-image-item"}
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width="80%"}
 knitr::include_graphics("./images_manual_GitHub/VLIZ_logo_positief.png")
 ```
 
 :::
 
-::: {class="flex-text-item"}
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-text-item"}
 
 **Vlaams Instituut voor de Zee vzw**
 
@@ -518,7 +527,7 @@ InnovOcean site, Wandelaarkaai 7
 
 :::
 
-::: {class="flex-text-item"}
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-text-item"}
 
 T +32(0)59340172
 
@@ -542,17 +551,17 @@ Data Centre - Local Services & Projects
 
 :::
 
-:::: {class="flex-container"}
+:::: {.multicols data-latex="{3}" class="flex-container"}
 
-::: {class="flex-image-item"}
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-image-item"}
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, out.width="80%"}
 knitr::include_graphics("./images_manual_GitHub/VLIZ_logo_positief.png")
 ```
 
 :::
 
-::: {class="flex-text-item"}
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-text-item"}
 
 **Vlaams Instituut voor de Zee vzw**
 
@@ -564,7 +573,7 @@ InnovOcean site, Wandelaarkaai 7
 
 :::
 
-::: {class="flex-text-item"}
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-text-item"}
 
 M +32(0)473510828
 
