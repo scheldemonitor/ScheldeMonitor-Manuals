@@ -145,17 +145,17 @@ knitr::include_graphics("./images_manual_rstudio/image6_rstudio_new_project_name
 
 ### Connect the RStudio environment of ScheldeMonitor to GitHub using SSH authentication
 
-#### Disclaimer
+#### Disclaimer\
 
-This manual was written for the users of the online [RStudio environment of ScheldeMonitor](https://rstudio.scheldemonitor.org/auth-sign-in). The procedure and affiliated scripts have been deployed on the server of this environment, so that users do not need to install anything to execute the procedure. This implies that this procedure will not work on other (local) RStudio environments or servers. Users that want to execute the procedure within another RStudio environment, not affiliated to the ScheldeMonitor server, can request a Git-bundle of the scripts at info@scheldemonitor.org. 
+This manual was written for the users of the online [RStudio environment of ScheldeMonitor](https://rstudio.scheldemonitor.org/auth-sign-in). The procedure and affiliated scripts have been deployed on the server of this environment, so that users do not need to install anything to execute the procedure. This implies that this procedure will not work on other (local) RStudio environments or servers. Users that want to execute the procedure within another RStudio environment, not affiliated to the ScheldeMonitor server, can request a Git-bundle of the scripts at info@scheldemonitor.org.
 
-#### Reason for SSH authentication
+#### Reason for SSH authentication\
 
 In 2020, GitHub announced that it would no longer accept account passwords when authenticating with the REST API and will require the use of token-based authentication. This implies that when using the combination of the ScheldeMonitor RStudio [workspace](https://rstudio.scheldemonitor.org/) with the GitHub repository, all actions (e.g. pull, push, commit) will require a different kind of authentication than standardly used.
 
 VLIZ has identified that setting up a SSH key would be the best way for users moving forward. This manual explains in detail the one-time procedure that is needed for a correct setup. This procedure involves four scripts that need to be run by a user from within the terminal of the RStudio environment of ScheldeMonitor. 
 
-#### Accessing the RStudio terminal
+#### Accessing the RStudio terminal\
 
 The ScheldeMonitor environment can be accessed by following the steps described in the chapter [Connecting to the RStudio environment of ScheldeMonitor](#connecting_ _to_the_rstudio_environment_of_scheldemonitor)
 
@@ -245,7 +245,7 @@ knitr::include_graphics("./images_manual_rstudio/image8g_message_sshkey_complete
 
 The workspace is now connected via SSH. The user can now start working through SSH in new projects or convert already connected projects to SSH. Both methods are explained in the following chapters. 
 
-#### Apply SSH authentication to new projects
+#### Apply SSH authentication to new projects\
 
 From now on new projects should immediately start off by using the correct remote origin-url. The steps below explain how to do that.
 
@@ -275,7 +275,7 @@ knitr::include_graphics("./images_manual_rstudio/image8h_github_sshkey_url.png")
 
 After choosing a name for your project locally, as well as a location, the project can be created. 
 
-#### Converting existing projects to SSH authentication
+#### Converting existing projects to SSH authentication\
 
 Projects were already connected to the RStudio workspace, before converting to SSH, will still work through HTTPS. To change this, open an existing project that you wish to convert in the RStudio environment. This can be done in the upper right corner of the screen: 
 
