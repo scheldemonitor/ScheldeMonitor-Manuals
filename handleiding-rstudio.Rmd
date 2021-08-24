@@ -1,0 +1,940 @@
+---
+title: "ScheldeMonitor Handleiding: Gebruik van de RStudio omgeving"
+output:
+  pdf_document:
+    toc: true
+    number_section: true
+    highlight: haddock
+    extra_dependencies: ["multicol"]
+    includes:
+      in_header: mystyle.sty
+  html_document:
+    toc: true
+    toc_float: true
+    number_section: true
+    highlight: haddock
+    css: "style.css"
+date:  "Geschreven, onderhouden en geüpdated door het ScheldeMonitor team van VLIZ - Versie 3 (`r format(Sys.time(), '%d/%m/%Y')`)"
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(kableExtra)
+knitr::opts_chunk$set(echo = TRUE, fig.align = 'center')
+```
+
+# Over de RStudio omgeving
+
+Dit document werd geschreven als handleiding voor het gebruik van de online RStudio omgeving van het ScheldeMonitor informatie en dataportaal. Deze omgeving werd toegankelijk via de ScheldeMonitor  [website](https://www.scheldemonitor.org/en) sinds 2021. Het voorziet geaccrediteerde onderzoekers en de partners van ScheldeMonitor van een gecentraliseerd RStudio hub om analyses uit te voeren en scripts te schrijven, rechtstreeks gebaseerd op de data en informatie opgeslagen in het portaal en de onderliggende database. 
+
+In deze handleiding worden richtlijnen gegeven voor het gebruik van RStudio voor nieuwe en onervaren gebruikers maar ook enkele algemene tips om gestructureerd en duidelijk te werken in RStudio. In het laatste hoofdstuk van deze handleiding wordt stapsgewijs uitgelegd hoe data van ScheldeMonitor kan ingevoegd worden in de RStudio workspace. 
+
+De RStudio omgeving is toegankelijk via de website, via volgende  [link](https://www.scheldemonitor.org/en/data-analysis-platform). Om toegang te krijgen zijn inloggegevens vereist. Deze gegevens kunnen  [hier](https://rshiny.lifewatch.be/account?p=register)aangevraagd worden, of door een mail te zenden naar info@scheldemonitor.org met vermelding waarom het gebruik van de RStudio omgeving nodig is.
+
+Het is ook mogelijk om de RStudio omgeving te linken met een bestaand project van de Scheldemonitor GitHub organisatie. Hoe u kan werken met GitHub in combinatie met RStudio wordt uitgelegd in een bijkomende GitHub  [handleiding](https://www.scheldemonitor.org/sites/scheldemonitor.be/files/2020-12/manual-github.pdf).
+
+# Verbinding maken met de RStudio omgeving van ScheldeMonitor
+
+Met uw persoonlijke inloggegevens kunt u toegang krijgen tot de Scheldemonitor omgeving op (https://rstudio.scheldemonitor.org/auth-sign-in)
+
+```{r echo=FALSE}
+knitr::include_graphics("./images_manual_rstudio/image1_sign_in_to_rstudio.png")
+```
+
+Deze inloggegevens zijn dezelfde als diegene die gebruikt worden voor alle andere tools op het ScheldeMonitor platform zoals de data download toolbox en de E-room.
+
+Nieuwe gebruikers moeten zich eerst registreren om hun inloggegevens te ontvangen. Dit kan gedaan worden door deze  [link](https://rshiny.lifewatch.be/account?p=register) te gebruiken of door de [helpdesk](#helpdesk) van ScheldeMonitor te contacteren met vermelding van de reden voor het gebruik van de RStudio omgeving.
+
+De volgende gegevens zijn vereist om te registreren voor de RStudio omgeving van ScheldeMonitor:
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_rstudio/image1a_rstudio_registration_form.png")
+```
+
+Na uw registratie moet uw account worden goed gekeurd door een moderator van de ScheldeMonitor RStudio omgeving. Dit proces kan één of twee werkdagen duren.
+
+```{r echo=FALSE, out.width='60%'}
+knitr::include_graphics("./images_manual_rstudio/image1b_rstudio_registration_message.png")
+```
+
+Na goedkeuring kunt u met uw persoonlijke gegevens inloggen op de RStudio omgeving van ScheldeMonitor.
+
+Eenmaal ingelogd kunt u uw persoonlijke workspace in RStudio zien. Deze workspace kan leeg zijn (bv. als u een nieuwe gebruiker bent) of de structuur en inhoud laten zien waaraan u gewerkt had tijdens uw vorige sessie, als u de workspace heeft opgeslagen bij het beëindigen van uw laatste sessie. 
+
+Een persoonlijke workspace is standaard samengesteld uit vier vensters, die uw scripts of dataframes, uw omgeving, de console en uw project en persoonlijke bestandstructuur weergeven. Het geeft ook aan welke gebruiker is ingelogd en welk project is gelinkt aan uw workspace:
+
+```{r echo=FALSE}
+knitr::include_graphics("./images_manual_rstudio/image2_rstudio_workframe.png")
+```
+
+# Werken met de RStudio omgeving van ScheldeMonitor
+
+## Richtlijnen voor de workspace
+
+De standaard werking van R voor het omgaan met .RData bestanden en workspaces stimuleert en vergemakkelijkt een model voor het opsplitsen van werkcontexten in verschillende working directories. Dit impliceert dat de gebruiker een bepaalde map in zijn lokale directory kan selecteren om te gebruiken als locatie waar bestanden, bewerkt door RStudio, worden opgeslagen. Deze lokale directory, of workspace, kan op elk moment veranderd worden door de gebruiker.
+
+In versie v0.95 van RStudio werd een nieuwe ‘Projects’ functie ingevoerd om het beheer van meerdere working directories eenvoudiger te maken. Het is aangeraden om deze functie te gebruiken, maar dit hoofdstuk legt ook het gebruik op de standaard manier van uw persoonlijke workspaces uit.
+
+Zoals bij de lokale RStudio installatie gebruikt de online RStudio omgeving van ScheldeMonitor standaard de gebruikers lokale home directory als workspace. Naar deze workspace wordt meestal verwezen met ~ in R. Wanneer RStudio opstart gebeurt het volgende:
+
+- Voert het .Rprofile (indien aanwezig) uit van de standaard working directory.
+- Laad het .RData bestand (indien aanwezig) vanuit de standaard working directory in de workspace.
+- Voert de andere acties uit beschreven in R Startup.
+
+Wanneer RStudio afgesloten wordt en er wijzigingen zijn aangebracht aan de workspace, vraagt een dialoogkader of deze wijzigingen moeten opgeslagen worden in het .RData bestand in de huidige working directory. Door op “save” te klikken zullen de wijzigingen opgeslagen worden en verschijnen zoals ze waren de volgende keer u inlogt in de RStudio omgeving.
+
+### Workspace opstellen
+
+RStudio toont de huidige working directory in het titelgebied van de console. U kunt het commando getwd() uitvoeren in de RStudio console om uw huidige working directory te controleren:
+
+```{r}
+getwd()
+```
+
+Om van working directory te veranderen kunt u het commando setwd() uitvoeren in de RStudio console, met een nieuwe directory als string ingevoerd:
+
+```{r eval=FALSE}
+setwd("//fs/HOME/jeller")
+```
+
+U kunt ook de werk map veranderen door het “Session” menu en “Set Working Directory” te selecteren. 
+Houd rekening met de gevolgen van het veranderen van uw working directory:
+
+-	Relatieve bestands verwijzingen in uw code (voor data, bron bestanden, etc.) zullen ongeldig worden wanneer u working directories wijzigt.
+- De locatie waar .RData is opgeslagen zal bij het afsluiten veranderen naar de nieuwe directory.
+
+Doordat deze gevolgen voor verwarring en foutmeldingen kunnen zorgen, is het beter om te starten in de working directory geassocieerd met uw project en deze te behouden voor de volledige sessie.
+
+De beste werkwijze is echter om de RStudio omgeving te koppelen met een bepaald ‘project’. Dit zorgt voor een beter overzicht van de working directories en de verschillende zaken waaraan u werkt in dezelfde RStudio omgeving. De volgende segmenten beschrijven hoe dergelijke projecten tot stand komen.
+
+### Start een lokaal project
+
+Elke erkende gebruiker kan de RStudio omgeving gebruiken om te beginnen of verder te werken met zijn of haar persoonlijk project met de data van ScheldeMonitor. Hierdoor kunnen gebruikers starten aan een nieuw lokaal project, een bestaand project downloaden van hun eigen GitHub, of hun eigen werk koppelen aan de GitHub organisatie van ScheldeMonitor.
+
+Met een lokaal project starten is de makkelijkste manier om met uw werk te beginnen. Dit project is opgeslagen op een lokale drive van de gebruikers hardware, en kan enkel heropgestart worden door de drive te openen. Om een lokaal project te beginnen moeten gebruikers de volgende stappen volgen:
+
+1. Open het ‘File’ menu en selecteer ‘New Project’.
+
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics("./images_manual_rstudio/image3_rstudio_file_menu.png")
+```
+
+2.	Selecteer ‘New Directory’ in de ‘New Project Wizard’. Een nieuw project zal gestart worden en zal opgeslagen worden op de lokale drive van de gebruikers hardware.
+
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics("./images_manual_rstudio/image4_rstudio_new_project_wizard.png")
+```
+
+3.	De gebruiker kan kiezen welk type project gestart moet worden
+
+    - New Project: Basis R project waar verschillende scripts kunnen opgesteld worden.
+    - R Package: Project waar gebruikers R Packages kunnen maken en publiceren voor andere gebruikers.
+    - Shiny Web Application: Een R project waar alle scripts voorgeschreven zijn voor gebruikers om Shiny web applicaties te creëren en runnen.
+    
+```{r, echo=FALSE, out.width='60%'}
+knitr::include_graphics("./images_manual_rstudio/image5_rstudio_new_project_project_type.png")
+```
+
+4.	Tenslotte kan de gebruiker het project een naam geven en een directory selecteren waarin het project een subdirectory zal maken. De optie “create a git repository” selecteren, zal het voor de gebruiker mogelijk maken om een lokaal geïnstalleerde versie te gebruiken. Deze optie is niet nodig wanneer er met een online GitHub space gewerkt wordt.
+
+```{r echo=FALSE, out.width='60%'}
+knitr::include_graphics("./images_manual_rstudio/image6_rstudio_new_project_name.png")
+```
+
+
+
+### RStudio omgeving verbinden met GitHub met behulp van SSH-verificatie
+
+#### Disclaimer\
+
+Deze handleiding werd geschreven voor de gebruikers van de online [RStudio omgeving van ScheldeMonitor](https://rstudio.scheldemonitor.org/auth-sign-in). De procedure en de bijbehorende scripts werden geïmplementeerd op de server van deze omgeving zodat gebruikers niets moeten installeren om de procedure uit te voeren. Dit betekent dat de procedure niet zal werken op andere (lokale) RStudio omgevingen of servers. Gebruikers die de procedure willen uitvoeren in een andere RStudio omgeving, niet verbonden met de ScheldeMonitor server, kunnen een aanvraag indienen voor een Git bundel van de scripts bij info@scheldemonitor.org.
+
+#### Redenen voor SSH-verificatie\
+
+In 2020 kondigde GitHub aan dat het niet langer account paswoorden zou accepteren voor verificatie met de REST API en dat het gebruik van token-gebaseerde authenticatie vereist zal zijn. Dit impliceert dat wanneer het gebruik van ScheldeMonitor RStudio  [workspace](https://rstudio.scheldemonitor.org/) gecombineerd wordt met de GitHub repository, alle acties (bv. pull, push, commit) een andere soort authenticatie vereisen dan standaard wordt gebruikt. 
+
+VLIZ heeft vastgesteld dat het instellen van een SSH-sleutel de beste manier is voor gebruikers om verder te gaan. Deze handleiding legt in detail de eenmalige procedure uit dat nodig is voor een correcte installatie. Deze procedure omvat vier scripts die moeten gerund worden door een gebruiker in de terminal van de RStudio omgeving van ScheldeMonitor.  
+
+#### Toegang tot de RStudio terminal\
+
+De ScheldeMonitor omgeving kan worden geopend door de stappen te volgen beschreven in het hoofdstuk  [Verbinding maken met de RStudio omgeving van ScheldeMonitor](#verbinding_maken_met_de_rstudio_omgeving_van_scheldemonitor)
+
+Zodra u in de workspace bent, schakelt u de console over naar het terminalvenster door op de tab 'Terminal' bovenaan het venster te klikken. In dit venster zal je de nodige commando’s uitvoeren:
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_rstudio/image8a_rstudio_terminal.png")
+```
+
+#### SHH-sleutel instellen
+
+1. Sleutelpaar genereren
+
+Indien gebruikers nog nooit een SSH-sleutel aangemaakt hebben in deze RStudio omgeving, moeten ze het ‘make-git-sshkey.sh’ script uitvoeren. Dit script zal een standaard sleutelpaar genereren om te gebruiken om verbinding te maken met git services.  
+
+Om het script te runnen, voer volgend commando uit in de terminal:
+
+```{r eval=FALSE}
+make-git-sshkey.sh
+```
+
+Een bericht zal verschijnen dat het sleutelpaar werd gegenereerd:
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_rstudio/image8b_message_keypair_generated.png")
+```
+
+2. Sleutelpaar registreren
+
+Vervolgens zal de gebruiker het gegenereerde sleutelpaar moeten registreren op GitHub online. Om dit te doen kan het script ‘connect-sshkey.sh’ gebruikt worden om lokaal correct te configureren en de gebruiker te adviseren over hoe het openbaar deel van de sleutel openbaar te registreren ten dienste van de gebruikers keuze (standaard in GitHub).
+
+Voer het volgende commando in de terminal uit  om te runnen:
+
+```{r eval=FALSE}
+connect-sshkey.sh
+```
+
+Een bericht zal verschijnen en gedetailleerd weergeven hoe de sleutel moet worden geregistreerd op GitHub:
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_rstudio/image8c_message_register_keypair.png")
+```
+
+3. Sleutel kopiëren
+
+Zoals beschreven in het bericht, kopieer de tekst tussen de twee  '\--\--'. 
+
+4. sleutel toevoegen aan GitHub
+
+Surf naar https://github.com/settings/keys, en selecteer de ‘New SSH key’ knop in de rechterbovenhoek.
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_rstudio/image8d_github_new_sshkey.png")
+```
+
+Een nieuw venster met twee tekstvakken zal openen. Plak de tekst dat u heeft gekopieerd van de RStudio terminal in stap 3 in het ‘Key’ veld. 
+
+Optioneel kunt u een naam geven aan de sleutel in het ‘Title’ veld, die van toepassing is op de RStudio omgeving waarin u de sleutel heeft gemaakt (het beste is dat elke omgeving zijn eigen sleutel heeft). 
+
+Druk op de ‘Add SSH key’ knop wanneer u klaar bent. Dit leidt u terug naar de het vorige venster, waar u kan zien dat de nieuwe sleutel is toegevoegd. 
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_rstudio/image8e_github_add_sshkey.png")
+```
+
+5. SSH-sleutel controleren
+
+Het script ‘chech-gitssh.sh’ kan gebruikt worden om na te gaan of de vorige stappen correct werden uitgevoerd. Dit script controleert of de verbinding correct ingesteld is. Deze stap kan zo dikwijls als nodig of gewild worden uitgevoerd. 
+
+Voer het volgende commando uit in de terminal van RStudio om te runnen:
+
+```{r eval=FALSE}
+check-gitssh.sh
+```
+
+Indien uitgevoerd voor de eerste keer kan de terminal vragen om de actie te controleren. Om dit te doen, schrijf ‘yes’ na het vraagteken en voer uit: 
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_rstudio/image8f_verify_sshkey.png")
+```
+
+Indien alles correct is verlopen keert de terminal terug naar de juiste gebruikersnaam:
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_rstudio/image8g_message_sshkey_complete.png")
+```
+
+De workspace is nu verbonden via SSH. Nu kan de gebruiker via SSH aan de slag in nieuwe projecten of al aangesloten projecten omzetten naar SSH. Beide methoden worden uitgelegd in de volgende hoofstukken. 
+
+#### SSH authenticatie toepassen op nieuwe projecten\
+
+Vanaf dit moment zouden nieuwe projecten onmiddellijk moeten starten door de juiste remote origin-url te gebruiken. De onderstaande stappen leggen uit hoe het moet.
+
+1. Open het ‘File’ menu en selecteer ‘New Project’.
+
+```{r, echo=FALSE, out.width='50%'}
+knitr::include_graphics("./images_manual_rstudio/image3_rstudio_file_menu.png")
+```
+
+2. Selecteer de optie “Version Control” in de ‘New project Wizard’.
+
+```{r echo=FALSE, out.width='60%'}
+knitr::include_graphics("./images_manual_rstudio/image4_rstudio_new_project_wizard.png")
+```
+
+3. Selecteer vervolgens “Git”, aangezien dit de versie gecontroleerde methode is die gebruikt wordt in de context van ScheldeMonitor.
+
+```{r echo=FALSE, out.width='60%'}
+knitr::include_graphics("./images_manual_rstudio/image7_rstudio_new_project_wizard_version_control.png")
+```
+
+4. Plak de URL van de repository in het ‘Repository URL’ veld. In vele gevallen plakken gebruikers de HTTPS URL van de repository. Wanneer echter SSH authenticatie gebruikt wordt moet de SSH URL ingevoerd worden. Deze SSH URL kan terug gevonden worden op de home pagina van de online repository door de groene ‘Code’ knop en de SSH optie te selecteren.
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_rstudio/image8h_github_sshkey_url.png")
+```
+
+Het project kan aangemaakt worden nadat een naam en een locatie voor uw lokaal project is gekozen. 
+
+#### Bestaande projecten naar SSH-authenticatie omzetten\
+
+Projecten die alreeds verbonden waren met de RStudio workspace voor de omzetting naar SSH, zullen nog steeds werken via HTTPS. Om dit te wijzigen, open een bestaand project dat u wenst om te zetten in de RStudio omgeving. Dit kan gedaan worden in de rechterbovenhoek van het scherm: 
+
+```{r echo=FALSE, out.width='40%'}
+knitr::include_graphics("./images_manual_rstudio/image8i_rstudio_open_existing_project.png")
+```
+
+Eenmaal het project is geopend, kan het script ‘fix-gitssh.sh’ gebruikt worden, dat eenvoudig de verbinding naar uw project zal veranderen naar gitt-ssh, en tijdens het proces uitzoeken met welke dienst het verbonden is. 
+
+```{r eval=FALSE}
+fix-gitssh.sh
+```
+
+De terminal zou naar de originele verbinding moeten terugkeren en een bericht weergeven dat het de verbinding met git-shh herstelt:
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_rstudio/image8j_message_fixing_gitssh.png")
+```
+
+## Richtlijnen voor scripts
+
+Een working directory of project in RStudio kan een groot aantal scripts en bestanden bevatten om mee te werken. Het is belangrijk om deze scripts gestructureerd te houden intern en in de directory om het werk georganiseerd en productief te houden. De segmenten hieronder stellen richtlijnen voor die onderzoekers kunnen helpen om hun werk transparant te houden voor zichzelf en andere gebruikers. 
+
+### Directory structuur
+
+Een working directory of project is vergelijkbaar met andere mappen op de lokale drive van uw hardware. Dit betekent dat zo’n directory kan bestaan uit mappen en submappen. Het is echter noodzakelijk dat mappen worden aangemaakt volgens een bepaalde structuur of idee om de scripts en bijbehorende data gemakkelijk vindbaar te maken voor uzelf en andere gebruikers. Er zijn meerdere niveaus waarop een directory gestructureerd kan worden.
+
+Ten eerste, als je werk in RStudio verbonden is aan een bepaalde publicatie of rapport zou de structuur ongeveer hetzelfde moeten zijn als de koppen van het rapport. Hier is een voorbeeld van het T2015 rapport van de Schelde waarvoor de project directory gestructureerd was conform de titels en de ondertitels in het gepubliceerd rapport: 
+
+```{r echo=FALSE}
+knitr::include_graphics("./images_manual_rstudio/image9_directory_structure.png")
+```
+
+Toch is het nog belangrijker om een uniforme structuur te hebben op het laagste niveau van de working directory, waar alle bestanden worden opgeslagen. Vooral voor projecten dat niet gelinkt zijn aan een vast rapport, en waarvoor de hierboven vermelde structuur niet van toepassing is. 
+
+Gewoonlijk worden databestanden en scripts in verschillende mappen opgeslagen. Hoewel het misschien handiger lijkt om deze bestanden bij elkaar te houden, heeft het algemene overzicht meer voordeel bij de twee-mappen structuur. Scripts en databestanden hebben vaak geen 1 op 1 verhouding, aangezien één script meerdere databestanden kan gebruiken terwijl deze databestanden door meerdere scripts kunnen gerund worden. De structuur van elke map zou echter hetzelfde moeten zijn met één map voor elke fase van het project:
+
+```{r echo=FALSE, out.width='50%'}
+knitr::include_graphics("./images_manual_rstudio/image10_data-scripts_folder.png")
+```
+
+Door gebruik te maken van deze structuur kan een uniforme werkwijze in de project directory gerealiseerd worden. De werkwijze bestaat uit vier stappen die worden uitgelegd in volgende tabel:
+
+```{r workflow table, echo=FALSE}
+data_workflowTable <- data.frame(
+  Step = c("Step 1 - Import data (if necessary)", "Step 2 - Clean data", "Step 3 - Anayze data", "Step 4 - Create figures or results"),
+  UsingDataFrom = c("n/a", "a. Raw data'", "'b. Cleaned data", "c. Analyzed data"),
+  UsingScriptsOrFunctionFrom = c("a. Import scripts", "b. Cleaning scripts", "c. Analysis scripts", "d. Figure scripts"),
+  SavingNewDataOrResultsIn = c("a. Raw data", "b. Cleaned data", "c. Analyzed data", "d. Figures & Results")
+)
+kable(data_workflowTable, col.names=c("", "Using data from:", "Using scripts or functions from:", "Saving new data or results in:"), align='l')%>%
+  kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
+  column_spec(1, bold = TRUE)
+```
+
+Het is mogelijk dat gebruikers liever een single script runnen om al deze stappen te doorlopen, vooral in kleinere projecten. In dit geval kan een ‘Main.R’ script opgeslagen worden naast de mappen ‘Data’ en ‘Scripts’. Dit main script kan vervolgens al deze stappen zelfstandig doorlopen, terwijl het verschillende databestanden en functies uit onderliggende mappenstructuur zoekt. Het laatste is vooral belangrijk in grotere projecten om ervoor te zorgen dat de lengte en leesbaarheid van het main script optimaal is. Daarbij is het van groot belang dat het main script goed gestructureerd is en van aantekeningen is voorzien, zoals verder zal worden uitgelegd in [Script structuur](#script_structuur) en [Script aantekeningen](#script_aantekeningen) hieronder.
+
+In elk geval mag er maar één ‘Main.R’ bestand aanwezig zijn om verwarring te voorkomen. 
+
+### Script benaming
+
+Scripts moeten zo worden genoemd zodat gebruikers makkelijk het doel ervan kunnen afleiden, om niet alle scripts in de RStudio omgeving te hoeven openen om te weten waarvoor ze gebruikt worden. Dit is voornamelijk belangrijk wanneer er gewerkt wordt met een main script dat tijdens verschillende fases functies uit andere scripts zoekt. 
+
+Bijvoorbeeld, wanneer er verschillende scripts gebruikt worden voor verschillende grafieken, moet de naam duidelijk aangeven welke plot gecreëerd wordt bij gebruik van het script: 
+
+```{r echo=FALSE}
+knitr::include_graphics("./images_manual_rstudio/image11_script_naming.png")
+```
+
+Daarnaast, als het werk in de RStudio verbonden is aan een bepaald rapport of publicatie, kan het figuur nummer van de publicatie in de bestandsnaam worden opgenomen:
+
+```{r echo=FALSE}
+knitr::include_graphics("./images_manual_rstudio/image12_figure_script_naming1.png")
+```
+
+Het is ook mogelijk dat meerdere scripts voor dezelfde figuur worden gebruikt, bijvoorbeeld als gebruikers zowel de originele als de nieuwe plot op een later tijdstip willen kunnen tonen. Toch moet de nomenclatuur duidelijk het verschil in de verschillende scripts aangeven:
+
+```{r echo=FALSE}
+knitr::include_graphics("./images_manual_rstudio/image13_figure_script_naming2.png")
+```
+
+Welke nomenclatuur ook wordt gekozen, het moet bestaan uit een vaste en uniforme naamgevingsconventie. Er zijn verschillende opties mogelijk, gelijkaardig aan degene beschikbaar voor de code nomenclatuur zoals uitgelegd in  [Naamgevingsconventies](#naming_conventions):
+
+- alllowercase: e.g. makebarplot
+- period.separated: e.g. make.barplot
+- underscore_separated: e.g. make_barplot
+- lowerCamelCase: e.g. makeBarPlot
+- UpperCamelCase: e.g. MakeBarPlot
+
+### Script structuur
+
+Gelijkaardig aan de directory kan een individueel script veel baat hebben bij een vaste en uniforme structuur. Deze structuur moet duidelijk de verschillende secties in het script afbakenen, wat de lezer een snel overzicht van de inhoud geeft, maar er ook de gebruiker verzekert dat alle acties en functies in een vaste volgorde worden uitgevoerd. De script structuur kan bijna onmiddellijk worden bereikt door koppen in de code te gebruiken. Deze worden op dezelfde manier ingevoerd als de aantekeningen. Idealiter zouden alle scripts dezelfde koppen moeten hebben om mee te beginnen: 
+
+-	Wie, wanneer, wat en hoe: Dit is een grote kop die in het begin van elk script moet staan, en aangeven wie het script schreef, wanneer het werd geschreven, hoe de schrijver gecontacteerd kan worden en wat het doel is.
+- 0 – Load libraries: In deze sectie worden alle ‘libraries’ opgelijst die moeten geladen worden voordat het volledige script wordt gerund. Deze sectie kan ook wat meer uitleg geven over het gebruik van de ‘libraries’.
+- 1 – Static part: In dit deel worden alle statische zaken uitgevoerd zoals databestanden laden, deze data voorbereiden voor analyse, zoeken naar andere scripts functies of argumenten benoemen die later in het script zullen worden gebruikt.
+- 2 – Script: Deze sectie bevat de eigenlijke code die ervoor zorgt dat het script zijn doel vervult.
+
+```{r example1 script structure, eval=FALSE}
+######################################################################
+## This is an example for the manual
+##
+## written by Jelle Rondelez of VLIZ
+## info@scheldemonitor.org - Oct 2020
+######################################################################
+
+##############################
+# 0 - Load libraries
+##############################
+library(dplyr) # package to clean datatable
+library(lubridate) # package to change date formats
+
+##############################
+# 1 - Static part
+##############################
+
+#Assign variable
+newvar <- ""
+
+#Source script from within directory
+source("Script/a. Import scripts/ImportWFS")
+
+#Open datafile
+datafile <- read.csv(file = "Data/b. Cleaned data/dataRWS.csv")
+
+##############################
+# 2- Scripts
+##############################
+code...
+```
+
+Merk op dat de gezochte bestanden in het voorbeeld hierboven de directory structuur gebruiken zoals beschreven in [Directory structuur](#directory_structuur).
+
+Deze koppen geven niet enkel een vaste structuur en orde aan alle scripts in het project, maar het heeft ook het extra voordeel dat secties indien nodig kunnen samengevouwen of uitgebreid worden. Vooral voor langere scripts, waarin bepaalde codes niet van belang zijn voor de gebruiker, kan dit de leesbaarheid van het script enorm verhogen:
+
+```{r echo=FALSE, out.width='70%'}
+knitr::include_graphics("./images_manual_rstudio/image13a_collapsed_code_sections.png")
+```
+
+Grotere scripts kunnen meer baat hebben bij een uitgebreide structuur met extra koppen. Dit geldt voornamelijk voor ‘Main.R’ scripts die alle fasen van het project in één script doorlopen, zoals besproken in  [Directory structuur](#directory_structuur). Dit soort scripts zoeken en gebruiken meestal een groot aantal verschillende functies en bestanden. Een uitgebreide structuur kan de scripts beter leesbaar maken en het zoeken naar specifieke functies of acties makkelijker maken:
+
+```{r example2 script structure, eval=FALSE}
+######################################################################
+## This is an example for the manual
+##
+## written by Jelle Rondelez of VLIZ
+## info@scheldemonitor.org - Oct 2020
+######################################################################
+
+##############################
+# 0 - Load libraries
+##############################
+library(dplyr) # package to clean datatable
+library(lubridate) # package to change date formats
+
+##############################
+# 1 - Static part
+##############################
+
+#Assign variable
+newvar <- ""
+
+#Source script from within directory
+source("Script/a. Import scripts/ImportWFS")
+
+#Open datafile
+datafile <- read.csv(file = "Data/b. Cleaned data/dataRWS.csv")
+
+##############################
+# 2- Scripts
+##############################
+code...
+
+##############################
+# 3 - Analysis part
+##############################
+code...
+
+##############################
+# 4 - Make plots & Figures
+##############################
+code...
+```
+
+### Script aantekeningen
+
+De code van aantekeningen voorzien is om een aantal redenen belangrijk. De belangrijkste reden is voor de gebruiker persoonlijk bij het terugkijken op wat was gecodeerd.  Het helpt in detail uit te leggen wat een regel, chunk of zelf een sectie van de code probeert te bereiken. Dit kan ook helpen voor andere mensen die de code lezen. De uitleg van wat een code regel doet kan handig zijn voor anderen die de code willen aanpassen voor hun eigen werk, of wanneer iemand een code chunk controleert of evalueert. Aantekeningen maken in de code wordt gedaan met # (hashtag). Aantekeningen kunnen gewoonlijk boven een volledige chunk gemaakt worden, zoals bij het uitleggen van het doel van een bepaalde functie. 
+
+``` {r example script annotations, eval=FALSE}
+#Reactive values for uses locations
+data_of_click <- reactiveValues (clicked = NULL)
+longitude_click <- reactiveValues (lng = NULL)
+latitude_click <- reactiveValues (lat = NULL)
+
+#if user clicks on map, new coordinates are saved and maps is adjusted
+observeEvent(input$Map_click, {
+  data_of_click$clicked <- input$Map_click
+  longitude_click <- input$Map_click$lng
+  latitude_click <- input$Map_click$lat
+  leafletProxy('Map') %>%
+    clearMarkers() %<%
+    addMarkers(lng = input$Map_click$lng,
+               lat = input$Map_click$lat,
+               popup = paste("Longitude=", round(input$Map_click$lng, 2),
+                             "and",
+                             "Latitude=", round(input$Map_click$lat, 2)))
+})
+```
+
+## Richtlijnen voor de code
+
+Helaas heeft R, in tegenstelling tot andere programmeertalen, geen algemeen aanvaarde coderingswerkwijze.  In plaats daarvan zijn er een aantal pogingen geweest om enkele regels samen te stellen. Dit hoofdstuk probeert deze tekortkomingen aan te vullen door samen te vatten wat belangrijk werd gevonden in die verschillende pogingen. 
+
+### Hardcoding
+
+Een bestand of map oproepen vanuit het script wordt meestal gedaan door ‘hardcoding’, e.g. de locatie van het bestand geven als string. De gebruikers worden echter sterk aangeraden om hoeveelheid hardcoding te minimaliseren, aangezien het minder moeite kost om een script te veranderen wanneer een directory locatie veranderd met minder hardcoding. Als uw code data zal inlezen van een bestand, definieer vroeg in de code een variabele dat het pad naar dat bestand opslaat. Hierbij het volgende voorbeeld:
+
+```{r example good hardcoding, eval=FALSE}
+input_file <- "data/data.csv"
+outpu_file <- "data/result.csv"
+
+#read input
+input_data <- read.csv(input_file)
+
+#get number of samples in data
+sample_number <- nrow(input_data)
+
+#generate results
+results <- some_other_function(input_file, sample_number)
+
+#write results
+write.table(results, output_file)
+```
+
+heeft voorkeur boven:
+
+```{r example bad hardcoding, eval=FALSE}
+
+#read input
+input_data <- read.csv("data/data.csv")
+
+#get number of samples in data
+sample_number <- nrow(input_data)
+
+#generate results
+results <- some_other_function("data/data.csv", sample_number)
+
+#write results
+write.table(results, "data/result.csv")
+```
+
+### Naamgevingsconventies
+
+R heeft geen naamgevingsconventies voor algemene variabelen en functies. Als nieuwkomer in R is het handig om te beslissen welke naamgevingsconventie aan te nemen. In het algemeen zijn er vijf naamgevingsconventies om uit te kiezen. Het is belangrijk om één conventie te kiezen en deze te gebruiken voor het volledige project:
+
+- alllowercase: e.g. adjustcolor
+- period.separated: e.g. plot.new
+- underscore_separated: e.g. numeric_version
+- lowerCamelCase: e.g. addTaskCallback
+- UpperCamelCase: e.g. SignatureMethod
+
+Bovenal, en naast de naamgevingsconventie, is het belangrijk om een korte en betekenisvolle naam te kiezen voor de variabele en de functie.
+
+### Spacing
+
+Als het neerkomt op code schrijven in R is er zoals de naamgevingsconventie geen syntax conventie. Grote scripts hebben echter baat bij het gebruik van een duidelijke en consistente syntax, aangezien het de code meer open en leesbaar maakt. De juiste spacing gebruiken in uw code maakt een waardevol verschil in de syntax. Het kan uitgevoerd worden door deze regels te volgen:
+
+-	Plaats altijd een spatie na de komma, nooit ervoor, net als in normaal Nederlands.
+
+```{r example spacings and comma, eval=FALSE}
+# Good
+x[, 1]
+
+# Bad
+x[,1]
+x[ ,1]
+x[ , 1]
+```
+
+-	Plaats geen spatie binnen of buiten de haakjes voor normale functie calls. 
+
+```{r example spacings and parentheses, eval=FALSE}
+# Good
+mean(x, na.rm = TRUE)
+
+# Bad
+mean (x, na.rm = TRUE)
+mean( x, na.rm = TRUE )
+```
+
+-	Plaats een spatie voor en na () wanneer gebruikt met ‘if’, ‘for’ en ‘while’.
+
+```{r example spacing and if for while, eval=FALSE}
+# Good
+if (debug) {
+  show(x)
+}
+
+# Bad
+if(debug){
+  show(x)
+}
+```
+
+- Plaats een spatie na () gebruikt voor functie argumenten.
+
+```{r example spacing and function arguments, eval=FALSE}
+# Good
+function(x) {}
+
+# Bad
+function (x) {}
+function(x){}
+```
+
+-	Meeste infix operatoren (=,+,-,<-, etc.) moeten altijd omgeven zijn door spaties.
+
+```{r spacing and infix operators, eval=FALSE}
+# Good
+height <- (feet * 12) + inches
+mean(x, na.rm = 10)
+
+# Bad
+height<-feet*12+inches
+mean(x, na.rm=10)
+```
+
+Het is echter belangrijk om niet te veel spacing te gebruiken. Extra spacing toevoegen kan helpen, maar alleen als het de uitlijning van = of <- verbeterd. Plaats geen extra spaties op plaatsen waar het niet behulpzaam is. 
+
+### Code blokken
+
+Net als wanneer we het hebben over de algemene structuur van een script, is de hiërarchie binnen de code zelf even belangrijk. Om de belangrijkste hiërarchie te definiëren worden accolades gebruikt. Om de hiërarchie echter transparant te houden voor uzelf en andere gebruikers is een consistente syntax nodig bij het gebruik van accolades. De syntax is op drie regels gebaseerd:
+
+- ‘{‘ moet het laatste karakter op de regel zijn. Verwante code (e.g. een if-clausule, een functieverklaring, een komma achteraan, …) moet op dezelfde regel staan als de openingsaccolade.  
+- De inhoud moet worden ingesprongen met twee spaties.
+- ‘}’ moet het eerste karakter op de regel zijn.
+
+```{r example code blocks, eval=FALSE}
+# Good
+if (y < 0 && debug) {
+  message("y is negative")
+}
+
+if (y == 0) {
+  if (x > 0) {
+    log(x)
+  } else {
+    message("x is negative or zero")
+  }
+} else {
+  y^x
+}
+```
+
+### Lange code regels
+
+Gebruikers worden aangeraden om altijd de code te beperken tot 80 karakters per regel. Om dit te doen, kan het gebruik van een beknopte en efficiënte naamgevingsconventie al een belangrijke stap zijn. Als een functie call te lang is om op een regel te passen, gebruik één regel voor elke functienaam, elk argument, en het sluitingshaakje. Dit maakt het makkelijker om de code te lezen en aan te passen:
+
+```{r example long line of code, eval=FALSE}
+# Good
+do_something_very_complicated(
+  something = "that",
+  requires = many,
+  arguments = "some of which may be long"
+)
+
+# Bad
+do_something_very_complicated("that", requires, many, arguments, "some of which may be long
+)
+```
+
+### Pipes
+
+Zelf met het gebruik van de juiste spacing en adequate structurering van de code blokken, kan het moeilijk zijn om het script te begrijpen.  Dit is voornamelijk het geval bij scripts waar veel verschillende operaties en functies worden gebruikt. Wanneer de code voornamelijk gevormd wordt uit functionele taal, heeft het een groot aantal accolades en argumenten per functie. Dit kan de code extreem complex maken en moeilijk om te begrijpen.
+
+Om dit probleem op te lossen worden gebruikers aangeraden om ‘piping’ te gebruiken voor meerdere acties op hetzelfde argument. Piping gebruikt de ‘%>%’ operator en kan toegepast worden door het installeren van de ‘magrittr’ of ‘dplyr’ library. Het is het beste uit te leggen aan de hand van deze drie simpele regels: 
+
+-	f(x) kan geschreven worden als x %>% f
+-	f(x, y) kan geschreven worden als x %>% f(y)
+-	h(g(f(x))) kan geschreven worden als x %>% f %>% g %>% h
+
+```{r example piping, eval=FALSE}
+#Import 'dyplr' library
+library(dyplr)
+
+#Load the data
+data(babynames)
+
+#Count how many young boys with the name "Taylor" are born
+sum(select(filter(babynames, sex=="M", name=="Taylor"), n))
+
+#Do the same but now with '%>%'
+babaynames%>%filter(sex=="M", name=="Taylor")%>%
+  select(n)%>%
+  sum
+```
+
+### Tidyverse stijlgids & add-ons
+
+De R-gemeenschap heeft meerdere gidsen over hoe u uw code moet opmaken en beheren om het leesbaar en schoon te maken. Al deze stijlgidsen zijn fundamenteel eigenwijs. Sommige beslissingen maken de code echt makkelijker om te gebruiken, maar vele beslissingen zijn willekeurig. Het belangrijkste van een stijlgids is dat het  consistentie biedt, waardoor de code makkelijker te schrijven is omdat u minder beslissingen hoeft te nemen.  
+
+Gebruikers van de RStudio omgeving van ScheldeMonitor worden aanbevolen om de [tidyverse stijl gids](https://style.tidyverse.org)te gebruiken, aangezien het een van de meest gebruikte gidsen is. De regels die hierboven in deze gids werden aangehaald maken ook deel uit van de tidyverse stijlgids.
+
+Er zijn twee tools die kunnen geïnstalleerd worden door gebruikers die het gemakkelijker maken om deze stijlgids te implementeren, de ‘styler’ en ‘lintr’packages. De installatie van het ‘tidyverse’ package is niet nodig voor deze applicaties. The ‘styler’ en ‘lintr’ packages kunnen geïnstalleerd worden met de volgende R code:
+
+```{r install styler and lintr, eval=FALSE}
+#Install packages 'styler' and 'lintr'
+install.packages("styler")
+install.packages("lintr")
+```
+
+-	Het ‘styler’ package maakt het mogelijk om de geselecteerde tekst, bestanden of het volledige project interactief te restylen. Deze bevat een RStudio add-in, de makkelijkste manier om de bestaande code te restylen.
+
+```{r echo=FALSE, out.width='50%'}
+knitr::include_graphics("./images_manual_rstudio/image14_style_guide_styler.png")
+```
+
+-	Het ‘lintr’ package kan automatische checks uitvoeren om te bevestigen dat de code conform de stijlgids is. Deze check wordt automatisch vertoont in het RStudio ‘Markers pane’. Om dit deelvenster te zien, ga naar het ‘Tools’ Menu en selecteer ‘Global Options …’. Een venster met de titel ‘Options’ zal verschijnen. In dat venster: selecteer aan de linkerkant ‘Code’; selecteer het ‘diagnostics’ tabblad; Klik ‘show diagnostics for R’ aan.
+
+Het volgende venster is nu zichtbaar:
+
+```{r echo=FALSE, out_width='80%'}
+knitr::include_graphics("./images_manual_rstudio/image15_style_guide_lintr.png")
+```
+
+Het is aangeraden om het ‘styler’ package eerst te gebruiken, gevolgd door het ‘lintr’ package. Omdat het ‘styler’ package automatisch de stijl fouten verbeterd zoals het onjuist gebruik van spaties en komma’s. Daardoor is de lijst met fouten, gegenereerd door het ‘lintr’ package, dat handmatig verbeterd moet worden, korter. 
+
+# Data van ScheldeMonitor gebruiken in RStudio
+
+De meeste data van ScheldeMonitor kan vrij gebruikt worden, en gebruikers worden aangemoedigd om de RStudio omgeving van ScheldeMonitor te gebruiken om onze data collectie verder te analyseren en valideren. Om dit te kunnen doen, moet de data eerst in de RStudio omgeving geladen worden. Dit kan gedaan worden door gedownloade data bestanden zoals CSV of TXT op te laden, of door de generic webservices van ScheldeMonitor te gebruiken. Voor beide methoden is toegang tot het [Data Download Toolbox](https://www.scheldemonitor.org/dataproducts/nl/download/) van ScheldeMonitor nodig, welke te verkrijgen is door de volgende stappen te volgen:
+
+1.	Ga naar het startscherm van de toolbox en kies tussen biotische of abiotische data.
+
+```{r, echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_rstudio/image16_scheldemonitor_homescreen.png")
+```
+
+2.	De toolbox biedt verschillende criteria aan om de databank van ScheldeMonitor te filteren. Deze criteria verschillen voor biotische en abiotische data. In het explore tabblad kan je data selecteren gebaseerd op de databron, geografisch gebied, of tijdsperiode. Meer details over de inhoud van de dataset is te verkrijgen via de ‘more info’ knop (informatie teken) rechts van de dataset naam.
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_rstudio/image16a_scheldemonitor_data_toolbox_explore.png")
+```
+
+Het is niet verplicht om een databron, geografisch gebied of tijdsperiode te selecteren in het explore tabblad. In het volgende tabblad (beschikbaar via de groene ‘next’ knop) kan een specifiek taxon (biotische data) of parameter (abiotische parameter) geselecteerd worden. Datasets, parameters, of taxa kunnen toegevoegd worden aan uw selectie met het plus teken rechts van de dataset, parameter, of taxon.
+
+Wanneer criteria geselecteerd zijn, toont de teller aan de rechterkant van het scherm het resterende aantal records dat voldoet aan de gekozen criteria. 
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_rstudio/image16b_scheldemonitor_data_toolbox_select.png")
+```
+
+3.	Eenmaal alle gewenste criteria geselecteerd zijn, klik op de groene "next" knop om een samenvatting van uw data te zien in de toolbox.
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_rstudio/image17_scheldemonitor_data_explorer.png")
+```
+
+4.	De toolbox toont een samenvatting van de gekozen datasets, samen met verschillende opties om de data de downloaden of te visualiseren. De volgende acties kunnen ondernomen worden in de toolbox:
+
+    - _Download Data_: een data bestand in csv-format zal gedownload worden. Meer gedetailleerde informatie is beschikbaar in het segment [‘A: Data gebruiken van gedownloade databestanden’](#data_gebruiken_van_gedownloade_databestanden).
+    - _View on Map_: dit visualiseert de data in een dynamische kaart viewer.
+    - _Upload to MDA_: slaat uw specifieke dataselectie op in de Marine Data Archive, zodat deze dataselectie later hergebruikt kan worden.
+    - _Save selection_: slaat een JSON bestand op die uw specifieke selectie beschrijft.
+    - _Share_: maakt een URL link van uw selectie.
+    - _Webservice URL_: genereerd een WFS URL (web feature service) dat kan gebruikt worden om automatisch data op te laden in het script of medium. Meer gedetailleerde informatie is beschikbaar in het segment [‘B: Data gebruiken van generic webservices’](#data_gebruiken_van_generic_webservices).
+    - _Load selection_: laad in een eerder opgeslagen data selectie met behulp van een JSON bestand.
+
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_rstudio/image18a_scheldemonitor_data_summary.png")
+```
+
+5.	De meeste, maar niet alle data in ScheldeMonitor is openbaar. Sommige data kan alleen gezien worden door gebruikers met geschikte inloggegevens. Voor deze datasets worden geen waarden weergegeven bij het downloaden van de data via zowel de databestanden en webservices. Daarom is de Toolbox voorzien van een ‘Login’ knop in de rechterbovenhoek. Deze knop zal gebruikers naar een login scherm leiden, waar inloggegevens kunnen ingevoerd of aangevraagd worden. Ga terug naar de toolbox na een succesvolle login. Nu zullen alle waarden zichtbaar zijn wanneer de dataset gedownload wordt. 
+
+```{r echo=FALSE, out.width='50%'}
+knitr::include_graphics("./images_manual_rstudio/image19_scheldemonitor_login.png")
+```
+
+## Data gebruiken van gedownloade databestanden
+
+De gebruikers kunnen nu kiezen om de data te downloaden van de ScheldeMonitor toolbox als databestanden in een CSV bestand format. Om dit te doen en om deze te data te gebruiken in de RStudio omgeving kan de gebruiker volgende stappen uitvoeren:
+
+1.	De gebruiker selecteert de “Dowload Data” knop en vult alle nodige gegevens in om te beginnen met zijn/haar download: 
+
+    - Organization: selecteer het type organisatie waarvoor u werkt. Dit is niet verplicht.
+    - Email: Vul uw email adres in waarnaar een melding kan gestuurd worden over de gereedheid van uw download.
+    - Country: Selecteer het land waarin de download wordt uitgevoerd.
+    - Data purpose: Selecteer voor welk doel de download is. 
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_rstudio/image20_scheldemonitor_data_download_justification.png")
+```
+
+2.	Nadat de nodige informatie werd ingediend, zal uw data voorbereid worden voor de download. De status van de voordbereiding kan gevolgd worden in de rechterbovenhoek van het scherm. Nadat de data voorbereid is, zal een knop verschijnen waardoor de download kan beginnen. Voor grotere databestanden kan een mail verzonden worden naar het opgegeven adres om de gebruiker te melden dat de download volledig voorbereid is.  
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_rstudio/image21a_scheldemonitor_data_download_progress.png")
+```
+
+3.	Eenmaal het databestand opgeslagen is op de lokale drive kan de gebruiker het bestand laden in de RStudio omgeving en beginnen werken met deze data. Dit kan uitgevoerd worden door gebruik te maken van het basis package van R, door de volgende functies te runnen:
+
+```{r load data into RStudio, eval=FALSE}
+data = read.csv("paht/file.csv", stringsAsFactors = FALSE)
+```
+
+Bijvoorbeeld:
+
+```{r example loading data into RStudio, eval=FALSE}
+data_waterstand = read.csv("Data/hoogwater_combinded.csv", stringsAsFactors = FALSE)
+```
+
+4.	De databestanden kunnen enkel gedownload worden als CSV bestanden. Dit format heeft echter een limiet van 1.000.000 records. Grotere bestanden zullen records verliezen wanneer de gebruiker het bestand wil openen in MS Excel voordat ze geladen zijn in R. Gebruikers worden daarom aanbevolen om deze grotere bestanden te openen als een TXT bestand in programma’s zoals Notepad++.
+
+## Data gebruiken van generic webservices
+
+Gebruikers van de RStudio omgeving van ScheldeMonitor worden echter aangespoord om gebruik te maken van de generic webservices die beschikbaar zijn in de data download toolbox van ScheldeMonitor. Deze webservices zijn een URL format dat de ScheldeMonitor database automatisch doorzoekt zonder menselijke tussenkomst. De samenstelling van deze URL is automatisch gegenereerd, gebaseerd op de selectie gemaakt door de gebruiker in het criteria van de data download toolbox. Het gebruik van webservices heeft het extra voordeel dat er geen databestanden nodig zijn om de dataset te laden in R, en dat de meest recente versie van de database opgezocht wordt. Het laatste betekent dat wanneer nieuwe data wordt toegevoegd in de database van een alreeds gedownloade dataset, dezelfde webservice URL zal in staat zijn om de nieuw toegevoegd data automatisch in te laden. Om de webservices in RStudio te gebruiken:
+
+1. Selecteer de “Webservice URL” optie in de data download toolbox, die u de URL zal geven die nodig is om de geselecteerde dataset te verkrijgen. 
+
+```{r, echo=FALSE, out.width = '80%'}
+knitr::include_graphics("./images_manual_rstudio/image22_scheldemonitor_webservice_url.png")
+```
+
+2. Eenmaal u de volledige URL heeft gekopieerd, kunt u de data inladen in de RStudio omgeving. U kunt hiervoor een functie uit de ‘sf’ R-library en de volgende coderegels gebruiken:
+
+```{r load webservice into RStudio, eval=FALSE}
+install.packages("sf")
+library(sf)
+webservice <- "URL"
+data <- data.frame(st_read(webservice))
+```
+
+3. Afhankelijk van de grote van de aangevraagde dataset kan het laden van de data in R tot 1 minuut duren.  Desalniettemin zal de dataset beschikbaar zijn in de RStudio omgeving. De limiet van de webservice is beperkt tot ongeveer 1.000.000 records per aanvraag. Het is daarom aangeraden dat gebruikers meerdere afzonderlijke URL’s genereren in de toolbox als ze meer dan een miljoen records willen analyseren en de data in R zelf samenvoegen. 
+
+4. VLIZ heeft een script gemaakt om data voor een bepaalde tijdsperiode (een jaar) voor een bepaalde parameter te lezen. Dit script kan hieronder gevonden worden of op de  [ScheldeMonitor](https://github.com/scheldemonitor) GitHub pagina. Hoe u toegang kunt krijgen tot de ScheldeMonitor GitHub organisatie wordt uitgelegd in een speciale  [handleiding](https://www.scheldemonitor.org/sites/scheldemonitor.be/files/2021-07/manual-github.pdf) over het gebruik van GitHub, beschikbaar op de [website](https://www.scheldemonitor.org/en/data-analysis-platform).
+
+```{r, eval=FALSE}
+#Created by Jelle Rondelez (VLIZ) on 8/3/21
+
+#These packages are needed
+install.packages(sf)
+install.packages(stringr)
+install.packages(dplyr)
+library(dplyr)
+library(sf)
+library(stringr)
+
+dataset <- data.frame()
+
+#Here, the years for which you want to download data should be listed.
+#Using the for loop, data can be downloaded per year by default
+years <- c("2016","2017","2018","2019","2020","2021")
+
+#This is a test string. Replace it with your own string
+#The timespan of the original wfs string should run from 1 Jan tot 31 Dec
+#no matter which years are selected
+wfsstring <- "http://geo.vliz.be/geoserver/wfs/ows?service=WFS&version=1.1.0&request=GetFeature&typeName=Dataportal%3Aabiotic_observations&resultType=results&viewParams=where%3Aobs.context+%26%26+ARRAY%5B1%5D+AND+standardparameterid+IN+%281073%29+AND+%28%28datetime_search+BETWEEN+%272016-01-01%27+AND+%272021-12-31%27+%29%29%3Bcontext%3A0001&propertyName=stationname%2Clongitude%2Clatitude%2Cdatetime%2Cdepth%2Cparametername%2Cvaluesign%2Cvalue%2Cdataprovider%2Cdatasettitle&outputFormat=csv"
+
+#This for loop results in the download of yearly datasets.
+#At the end of the loop, all datasets are both saved seperately and appended together.
+#If the user wants to download in larger timespans, change the second 'years[i]'
+#example: 'years[i+1] downloads data for two year spans
+
+for (i in 1:length(years)) {
+  wfsstring <- str_replace(wfsstring,"(?<=%27).*(?=-12-31)",
+                           paste(years[i],"-01-01%27+AND+%27",years[i],sep=""))
+  name <- paste(years[i])
+  data <- data.frame(st_read(wfsstring))
+  dataset <- rbind(data,dataset)
+  assign(name,data)
+}
+```
+
+# Helpdesk
+
+VLIZ is verantwoordelijk om de RStudio van ScheldeMonitor up-to-date en operationeel te houden. Naast het voorzien van de nodige server en geheugen capaciteit, zal VLIZ dus ook zorgen dat al de nodige R libraries en packages geïnstalleerd zijn op de RStudio server. Indien nieuwe libraries en packages moeten geïnstalleerd worden, kunnen gebruikers VLIZ contacteren om dit te doen.
+
+Om aan deze en andere noden van gebruikers en  medewerkers te voldoen, heeft VLIZ een permanente helpdesk. Deze helpdesk kan gecontacteerd worden via het algemene adres van de ScheldeMonitor:
+
+**Helpdesk ScheldeMonitor**
+
+Data Centre - Local Services & Projects
+
+:::: {.multicols data-latex="{3}" class="flex-container"}
+
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-image-item"}
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("./images_manual_GitHub/VLIZ_logo_positief.png")
+```
+
+:::
+
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-text-item"}
+
+**Vlaams Instituut voor de Zee vzw**
+
+**Flanders Marine Institute**
+
+InnovOcean site, Wandelaarkaai 7
+
+8400 Oostende, Belgium
+
+:::
+
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-text-item"}
+
+T +32(0)59340172
+
+info@scheldemonitor.org
+
+[www.vliz.be](www.vliz.be)
+
+:::
+
+::::
+
+Voor dringende zaken of vragen, of indien gebruikers en medewerkers het gebruik van de RStudio omgeving willen bespreken voor bepaalde projecten kan de project manager van ScheldeMonitor gecontacteerd worden: 
+
+**Jelle Rondelez**
+
+::: {class="no-spacing"}
+
+Project Manager
+
+Data Centre - Local Services & Projects
+
+:::
+
+:::: {.multicols data-latex="{3}" class="flex-container"}
+
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-image-item"}
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("./images_manual_GitHub/VLIZ_logo_positief.png")
+```
+
+:::
+
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-text-item"}
+
+**Vlaams Instituut voor de Zee vzw**
+
+**Flanders Marine Institute**
+
+InnovOcean site, Wandelaarkaai 7
+
+8400 Oostende, Belgium
+
+:::
+
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-text-item"}
+
+M +32(0)473510828
+
+jelle.rondelez@vliz.be
+
+[www.vliz.be](www.vliz.be)
+
+:::
+
+::::

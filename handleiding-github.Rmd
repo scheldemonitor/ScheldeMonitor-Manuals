@@ -1,0 +1,586 @@
+---
+title: 'ScheldeMonitor Handleiding: GitHub repository - T2021'
+output:
+  pdf_document:
+    toc: true
+    number_section: true
+    highlight: haddock
+    extra_dependencies: ["multicol"]
+    includes:
+      in_header: mystyle.sty
+  html_document:
+    toc: true
+    toc_float: true
+    number_section: true
+    highlight: haddock
+    css: "style.css"
+date:  "Geschreven, onderhouden en geüpdatet door het ScheldeMonitor team van VLIZ - Versie 3 (`r format(Sys.time(), '%d/%m/%Y')`)"
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(kableExtra)
+knitr::opts_chunk$set(echo = TRUE, fig.align = 'center')
+```
+
+# over
+
+Om het functioneren en de activiteiten die plaats vinden in het Schelde estuarium te evalueren, hebben Vlaanderen en Nederland samengewerkt om een methodiek te ontwikkelen die gebruikt maakt van indicatoren om de staat van het estuarium te beoordelen. Deze evaluatie wordt om de zes jaar uitgevoerd in samenwerking met verschillende partners en leden van de projectgroep ‘Evaluatie en Rapportage’ (PG ER) van de Vlaams-Nederlandse Schelde Commissie (VNSC). Een derde deel van deze evaluatie is in voordbereiding voor T2021, die gebaseerd is op de T2015 evaluatie en de T2009 baseline. 
+
+Ervaringen in eerdere rapporten hebben uitgewezen dat een centraal beheer van bestanden en scripts, en het correct toepassen van versiebeheer, van groot belang zijn om de leesbaarheid, duidelijkheid en reproduceerbaarheid van de uitgevoerde evaluatie te verzekeren. Daarom heeft het [ScheldeMonitor](https://www.scheldemonitor.org/nl) data- en informatieportaal de opdracht gekregen om een GitHub-repository op te stellen voor alle analyses uitgevoerd voor het T2021-rapport. Deze repository is beschikbaar in de [ScheldeMonitor](https://github.com/scheldemonitor) GitHub organisatiie.
+
+Deze handleiding werd gemaakt om ervoor te zorgen dat het gebruik van deze repository uniform en consistent is. Om dit te bereiken bevat de handleiding richtlijnen en regels over de werkwijze, inhoud management en structuur. 
+
+Aangezien het informatie- en dataportaal van ScheldeMonitor een RStudio omgeving bevat die bedoeld is om te worden gebruikt in combinatie met deze GitHub repository, is deze handleiding voornamelijk voor R gebruikers opgesteld.  Meerdere richtlijnen kunnen echter ook in andere programmeertalen worden gebruikt. Voor sommige secties is de inhoud gebaseerd op de [RStudio handleiding](https://www.scheldemonitor.org/sites/scheldemonitor.be/files/2020-12/manual-rstudio.pdf) die beschikbaar is op de ScheldeMonitor [website](https://www.scheldemonitor.org/en/data-analysis-platform). De belangrijkste secties worden ook aangeduid in het ‘ReadMe’ bestand van de repository. 
+
+# Toegang tot de T2021 GitHub repository
+
+## Toegang aanvragen
+
+GitHub is een code-hosting platform voor versiebeheer en samenwerking dat het gemakkelijkst toegankelijk is via een webbrowser op https://github.com/. Hiermee kunnen gebruikers vanaf elke locatie samenwerken aan projecten. GitHub projecten worden opgeslagen als ‘repositories’, die ofwel publiekelijk ofwel privaat zichtbaar zijn.
+
+De T2021 private GitHub is een private repository binnen de ‘ScheldeMonitor’ GitHub organisatie. Dit betekent dat de organisatie zichtbaar is in [GitHub](https://github.com/scheldemonitor), maar de repository toch verborgen is voor niet-leden.
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_GitHub/image1_scheldemonitor_github_users.png")
+```
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_GitHub/image2_scheldemonitor_github_repositories.png")
+```
+
+Onderzoekers, leden van VNSC of hun werkgroepen, en partner instituten van ScheldeMonitor kunnen toegang aanvragen voor de ScheldeMonitor GitHub organisatie, of voor één specifieke openbare of private repository.
+
+Om dit te doen kunnen gebruikers een mail sturen naar info@scheldemonitor.org met als onderwerp ‘ScheldeMonitor GitHub’, en de antwoorden op volgende vragen:
+
+- Naam en GitHub gebruikersnaam?
+- Bent u lid van VNSC of van één van de werkingsgroepen?
+- Wilt u toegang tot specifieke repositories, en waarom?
+- Met welk instituut bent u verbonden?
+- Heeft u een specifiek niveau van toestemming nodig (zie [Regels voor de repository van T2021](#regels_voor_de_GitHub_repository_van_T2021))?
+
+## Toegangsbeheer
+
+Met de gegeven informatie zal de helpdesk van ScheldeMonitor controleren als er toegang kan gegeven worden voor de gebruiker of niet. Dit betekent dat de gebruiker twee verschillende ‘rollen’ krijgt toegewezen, één binnen de ‘ScheldeMonitor’ GitHub organisatie en één binnen een gekozen repository, die elk een andere set rechten toekennen.
+
+### Toegang tot de organisatie
+
+Wanneer u in aanmerking komt voor een lidmaatschap van de ScheldMonitor GitHub organisatie, kan de gebruiker een ‘eigenaar’ of ‘lid’ status toegewezen krijgen. Indien niet wordt de gebruiker beschouwd als een ‘externe medewerker’ en zal enkel toegang krijgen tot de gevraagde repositories binnen de organisatie.  De helpdesk van ScheldeMonitor en de VNSC worden standaard als eigenaars van de organisatie beschouwd. Het verschil tussen de eigenaar, lid of externe medewerker status wordt gegeven in de onderstaande tabellen:
+
+```{r organization access table Visibility, echo=FALSE}
+data_visibilityTable <- data.frame(
+  Visibility = c("See organization", "See public repositories", "See private repositories", "See members","Change repository visibility"),
+  Owner = c("X", "X", "X", "X", "X"),
+  Member = c("X", "X", "X", "X", ""),
+  Outside_collaborator = c("X", "X", "", "X", "")
+)
+kable(data_visibilityTable, col.names=c("Visibility", "Owner", "Member", "Outside collaborator"), align='l')%>%
+  kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
+  column_spec(1, bold = TRUE)
+```
+
+```{r organization access table Management, echo=FALSE}
+data_managementTable <- data.frame(
+  Management = c("Manage members", "Manage collaborators", "Create public repository", "Create private repository","Delete repositories", "Transfer repositories"),
+  Owner = c("X", "X", "X", "X", "X", "X"),
+  Member = c("", "", "", "", "", ""),
+  Outside_collaborator = c("", "", "", "", "", "")
+)
+kable(data_managementTable, col.names=c("Management", "Owner", "Member", "Outside collaborator"), align='l')%>%
+  kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
+  column_spec(1, bold = TRUE)
+```
+
+```{r organization access table Base repository rights, echo=FALSE}
+data_baserepositoryrightsTable <- data.frame(
+  BaseRepositoryRights = c("Clone any repository", "Pull any repository", "Push/merge any repository", "Branch public repositories","Branch private repositories"),
+  Owner = c("X", "X", "X", "X", "X"),
+  Member = c("X", "X", "", "X", ""),
+  Outside_collaborator = c("", "", "", "", "")
+)
+kable(data_baserepositoryrightsTable, col.names=c("Base repository rights", "Owner", "Member", "Outside collaborator"), align='l')%>%
+  kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
+  column_spec(1, bold = TRUE)
+```
+
+```{r organization access table Interaction, echo=FALSE}
+data_interactionTable <- data.frame(
+  Management = c("Create discussions", "Comment discussions", "Delete issues", "Create teams","Manage teams", "Publish GitHub Pages sites"),
+  Owner = c("X", "X", "X", "X", "X", "X"),
+  Member = c("X", "X", "X", "X", "X", "X"),
+  Outside_collaborator = c("", "", "", "", "", "")
+)
+kable(data_interactionTable, col.names=c("Interaction", "Owner", "Member", "Outside collaborator"), align='l')%>%
+  kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
+  column_spec(1, bold = TRUE)
+```
+
+Leden kunnen toegevoegd worden aan een bepaald team binnen de organisatie. Het gebruik van teams maakt interne discussies, teamvermeldingen en opdrachten mogelijk, als ook het toevoegen van volledige teams aan bepaalde repositories in plaats van individuele leden en medewerkers. Deze teams kunnen per partner instituut of ten gunste van bepaalde werkgroepen van VNSC worden opgericht.
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_GitHub/image3_scheldemonitor_github_teams.png")
+```
+
+### Toegang tot de repository
+
+Hoewel organisatieleden basisleesrechten hebben, is het nog steeds nodig om gebruikers aan repositories toe te wijzen als medewerker om repository specifieke rechten te verlenen. Deze rechten hebben voorrang op de basisrechten die op organisatieniveau zijn ingesteld, wat betekent dat externe medewerkers lees- en schrijfrechten kunnen krijgen voor een specifieke repository zonder lid te moeten worden van de organisatie. De verschillende rollen voor een repository, en hun specifieke rechten worden weergegeven in de tabel hieronder:
+
+```{r repository access table, echo=FALSE}
+data_repositoryAccessTable <- data.frame(
+  actions = c("Pull repository", "Branch repository", "Clone repository", "Comment","Manage issues", "Apply labels", "Manage labels", "Push/merge repository", "Manage comments", "Change repository visibility", "Change repository settings", "Manage collaborators"),
+  Read = c("X", "X", "X", "X", "X", "", "", "", "", "", "", ""),
+  Triage = c("X", "X", "X", "X", "X", "X", "", "", "", "", "", ""),
+  Write = c("X", "X", "X", "X", "X", "X", "X", "X", "X", "", "", ""),
+  Maintain = c("X", "X", "X", "X", "X", "X", "X", "X", "X", "", "", ""),
+  Admin = c("X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X")
+)
+kable(data_repositoryAccessTable, col.names=c("", "Read", "Triage", "Write", "Maintain", "Admin"), align='l')%>%
+  kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
+  column_spec(1, bold = TRUE)
+```
+
+De medewerkers krijgen standaard een “Write” status om te kunnen werken aan nieuwe ontwikkelingen binnen de repository. De ScheldeMonitor helpdesk alsook de projectleiders zullen de “Admin” status krijgen om de bijdragen aan de repository te kunnen beheren. 
+
+# Werken met een GitHub repository
+
+De T2021 repository kan gezien worden als een ‘master folder’, waar alles wat met dit specifieke project te maken heeft, moet worden bewaard. Repositories, of ‘repo’s’, kunnen mappen bevatten, of uit aparte bestanden bestaan. 
+
+Het hebben van een GitHub repo maakt het voor gebruikers gemakkelijk om samenwerkings- en persoonlijke projecten bij te houden, aangezien alle bestanden die nodig zijn voor bepaalde analyses bij elkaar kunnen worden gehouden en mensen hun code, grafieken, enz. kunnen toevoegen terwijl de projecten zich ontwikkelen.  Elk bestand op GitHub heeft een geschiedenis, waardoor het gemakkelijk is om wijzigingen te bekijken die er op verschillende tijdstippen in zijn aangebracht. U kunt de code van anderen bekijken, opmerkingen toevoegen aan bepaalde regels of het algemene document, en wijzigingen voorstellen. 
+
+Voor samenwerkingsprojecten kunt u met GitHub taken toewijzen aan verschillende gebruikers, zodat het duidelijk wordt wie verantwoordelijk is voor welk deel van de analyse. U kunt ook aan bepaalde gebruikers vragen om uw code te controleren. Voor persoonlijke projecten kunt u met versiebeheer uw werk bijhouden en gemakkelijk navigeren tussen de vele versies van bestanden die u gemaakt hebt, terwijl u ook een online back-up behoudt. 
+
+Dit hoofdstuk beschrijft hoe u de GitHub repository kunt gebruiken om alle scripts, documenten en databestanden te verzamelen die worden gebruikt om het T2021 rapport van het Schelde estuarium samen te stellen. 
+
+## Installatie van Git
+
+Eerst is een installatie van Git nodig op de persoonlijke hardware van de gebruiker om functies te verlenen die nodig zijn voor versiebeheer. Deze installatie verschilt tussen Windows en Mac hardware. 
+
+### Windows
+
+Indien de gebruiker Windows hardware gebruikt, download en installeer [Git](https://git-scm.com/downloads) voor uw besturingssysteem. Hieronder zijn enkele aanbevolen installatie instructies:
+
+|      _For “Select Components”, check:_
+
+- _“Git Bash Here”_
+- _“Git GUI Here”_
+- _“Git LFS (Large File Support)”_
+- _“Associate .git* …”_
+- _“Associate .sh …”_
+
+|      _When prompted to choose the default editor, select Nano (a simple terminal editor) or Notepad++ (a simple graphical editor):_
+|      _For “Adjust your PATH environment”, select: “Use Git from Git Bash only”_
+|      _For “Choose HTTPS transport backend”, select: “Use the OpenSSL library”_
+|      _For “Configure the line ending conversions”, select: “Checkout Windows-style,…”_
+|      _For “Configure the terminal emulator …”, select: “Use MinTTY …”_
+|      _For “Configure extra options”, select: “Enable file system caching”_
+|      _“Enable Git Credential Manager”_
+
+### Mac
+
+Als een gebruiker Mac software gebruikt, installeer Git dan via Homebrew, een pakketbeheerder voor command-line-programma’s op Mac. Open eerst een terminal, die gevonden kan worden op ~/Application/Utilities/Terminal.app. Kopieer en plak daarna deze lijn in de terminal en druk op “Enter”:
+
+|      _/usr/bin/ruby -e "$(curl –fsSL https://raw.GitHUBusercontent.com/Homebrew/install/master/install)"_
+
+Voeg volgende code in om Git te installeren:
+
+|      _brew install git_
+
+Volg alle instructies in het terminal venster, het kan zijn dat de gebruiker het wachtwoord van een Mac moet invoeren of akkoord moet gaan met vragen door “yes” te typen.   
+
+Nu Git geïnstalleerd is, kan de gebruiker versiebeheer gaan gebruiken voor zowel de interne projecten als met GitHub repositories.
+
+## Versiebeheer gebruiken met GitHub & RStudio
+
+De GitHub werkwijze kan samengevat worden door de “pull-commit-push” mantra. Met deze methodologie heeft elk bestand op GitHub een geschiedenis. Dus in plaats van veel bestanden te hebben zoals scripts_1st_May.R, script_2nd_May.R, kan de gebruiker er maar één hebben. Door de geschiedenis ervan te verkennen, kan de gebruiker zien hoe het er op verschillende tijdstippen uitzag. 
+
+Omdat het de bedoeling is om de T2021 repository te gebruiken in combinatie met de RStudio omgeving van ScheldeMonitor, is het belangrijk om verbinding te maken tussen de repository en RStudio. Hoe u dit moet doen wordt in detail beschreven in de [RStudio handleiding](https://www.scheldemonitor.org/sites/scheldemonitor.be/files/2020-12/manual-rstudio.pdf), beschikbaar in de GitHub repository of op de [ScheldeMonitor](https://www.scheldemonitor.org/en/data-analysis-platform) website.
+
+Eenmaal verbonden kan al het werk in de RStudio omgeving versie gecontroleerd worden uitgevoerd. De werkwijze om dit te doen wordt beschreven door de vijf stappen hieronder:
+
+### Een nieuwe projectbranch aanmaken
+
+Het werken aan projecten gebeurt in ‘branches’. Een branch is een kopie, of versie van de project repository waarin wijzigingen kunnen worden aangebracht. Elk project start met de standaard ‘master’ branch. Deze branch moet door het hele project als rode draad worden behandeld en eindigen in het eindproduct. Het aantal rechtstreekse aanpassingen aan de masterbranch moet daarom gelimiteerd worden. Om nieuwe ontwikkelingen te maken, kan een nieuwe branch aangemaakt worden, die zich op die specifieke ontwikkelingen richten. Door deze methodologie te gebruiken, kunnen verschillende ontwikkelingen naast elkaar gestart worden, zonder dat dit invloed heeft op elkaar of de standaard master branch:
+
+```{r echo=FALSE, out.width='60%'}
+knitr::include_graphics("./images_manual_GitHub/image4_github_branch_structure.png")
+```
+
+Een nieuwe branch maken kan het gemakkelijkst gedaan worden in het GitHub project repository online.  Als u op de project webpagina bent, wordt de huidige gevisualiseerde branch boven de repository aangeduid:
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_GitHub/image5_github_master_branch.png")
+```
+
+De ‘master’ branch wordt standaard gekozen. Verschillende branches kunnen gekozen worden via het dropdown menu.  Om een nieuwe branch aan te maken, kan het ‘+’ icoontje gebruikt worden om de ‘New Branch’ optie voor de repository te kiezen:
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_GitHub/image6_github_new_branch.png")
+```
+
+Het systeem zal vragen om de branch een naam te geven en te kiezen uit welke bestaande branch een nieuwe branch moet worden aangemaakt (e.g. welk bestaande branch gekopieerd moet worden). Het is heel belangrijk om de branch duidelijk te benoemen zodat andere gebruikers een duidelijk idee hebben waarvoor de branch werd aangemaakt. Dit wordt verder uitgelegd in deze handleiding, in de sectie [‘Branch nomenclatuur’](#branches_aanmaken).
+
+Wanneer de gebruikte RStudio instance is verbonden met GitHub (zoals uitgelegd in de ScheldeMonitor [RStudio Handleiding](https://www.scheldemonitor.org/sites/scheldemonitor.be/files/2020-12/manual-rstudio.pdf)), verschijnt er een ‘Git’ tabblad in het omgevingsframe van de RStudio workspace waar de gebruiker kan kiezen in welke branch wijzigingen worden gemaakt:
+
+```{r echo=FALSE, out.width='70%'}
+knitr::include_graphics("./images_manual_GitHub/image7_rstudio_git_tab.png")
+```
+
+Zodra een nieuwe branch aangemaakt is of de juiste branch geselecteerd is, kan u beginnen met het bewerken van bestanden en scripts. Terwijl u dit doet, kan het versiebeheer worden beheerd in hetzelfde venster als hierboven weergegeven, met behulp van de stappen die hieronder worden besproken. 
+
+### Pull een repository naar RStudio
+
+Voordat er met werk kan begonnen worden op de repository, moet de gebruiker er zeker van zijn dat de laatste versie van de gekozen branch beschikbaar is. Om deze te verkrijgen, moet de branch gedownload of ‘pulled’ worden vanuit de online repository. Deze optie wordt gegeven in het ‘Git’ tabblad in het omgevingspaneel van de workspace, en is gemarkeerd met een blauwe pijl: 
+
+```{r echo=FALSE, out.width='70%'}
+knitr::include_graphics("./images_manual_GitHub/image8_rstudio_pull_repository.png")
+```
+
+Door op het icoon te klikken wordt een ‘pull’ gestart van de aangegeven branch en verschijnt er een nieuw venster waarin de voortgang van de actie wordt aangegeven. Deze actie kan uitgevoerd worden wanneer de gebruiker dat wilt. Als de workspace al up-to-date is, wordt dit aangegeven in het voortgangsvenster:
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_GitHub/image9_rstudio_git_pull.png")
+```
+
+### Wijzigingen aanbrengen en vastleggen
+
+Na een pull kan de gebruiker beginnen met wijzigingen aan te brengen aan de bestanden van een gegeven branch van de repository. Eenmaal de wijzigingen zijn aangebracht, moeten de wijzigingen worden opgeslagen of ‘vastgelegd’ in de lokale versie van de branch. Om dit te doen kan de gebruiker de ‘commit’ knop in het ‘Git’ tabblad selecteren. 
+
+```{r echo=FALSE, out.width='70%'}
+knitr::include_graphics("./images_manual_GitHub/image10_rstudio_commit_button.png")
+```
+
+Dit zal een nieuw venster weergeven waar de gebruikers kunnen selecteren welke bestanden moeten worden vastgelegd. Over het algemeen worden alle bestanden geselecteerd. Het venster geeft aan welke wijzigingen werden aangebracht, toevoegingen zijn groen gekleurd en verwijderingen rood gekleurd. 
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_GitHub/image11_rstudio_review_changes.png")
+```
+
+Zodra alles is zoals het moet zijn, kan de vastlegging worden afgerond door een ‘commit message’ op te nemen en op de ‘Commit’ knop te drukken. Een bericht is verplicht om wijzigingen te kunnen vastleggen, en moet de reden aangeven waarom de vastlegging is gebeurt. Dit moet dus geen letterlijke omschrijving zijn van de code die is toegevoegd of verwijderd. Bijvoorbeeld, in voorbeeld hierboven zou het bericht  _‘Testing commit procedure for manual’_ moeten vermelden.
+
+Indien alles correct uitgevoerd is, zal een derde venster verschijnen dat de voortgang toont van de uitgevoerde vastlegging. Als er geen problemen werden gevonden, zal de onderste stelling aangeven hoeveel bestanden er gewijzigd werden en op welke manier: 
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_GitHub/image12_rstudio_git_commit.png")
+```
+
+### Push changes to the online repository
+
+Als de gebruiker al de wijzigingen heeft vastgelegd, is het belangrijk om collega’s te verwittigen dat deze wijzigingen werden aangebracht in de bestanden van deze specifieke branch. Om dit te doen moeten alle wijzigingen in de lokale repository geüpload of ‘pushed’ worden naar de online repository.  Dit is het tegenovergestelde van de ‘pull’ actie die hiervoor al is uitgelegd. Het wordt sterk aanbevolen om eerst een ‘pull’ van de repository uit te voeren, om zeker te zijn dat de wijzigingen van de gebruiker worden geüpload naar de nieuwste versie van de online repository. Daarna kan de ‘push’ actie gestart worden van hetzelfde ‘Git’ tabblad.
+
+Bij het gebruik van de groene pijl verschijnt een voortgangsvenster waarin wordt aangegeven of de push succesvol is uitgevoerd of dat er problemen zijn opgetreden.
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_GitHub/image13_rstudio_git_push.png")
+```
+
+Het is gebruikelijk dat bij het uitvoeren een push voor de eerste keer, een fout optreed met de melding “fatal: Authentication Failed”. Dit betekent dat de inloggegevens van de gebruiker niet geldig zijn om toegang te krijgen tot de online repository. Om dit probleem te verhelpen moet de gebruiker eerst inloggen op de webbrowser op  https://github.com/. Als alternatief kunnen inloggegevens worden beheerd met behulp van het inlogbeheer van de gebruikers hardware.
+
+### Branches samenvoegen
+
+Wanneer een branch de bereikte ontwikkeling heeft voltooid, moeten de wijzigingen terug toegepast worden op bovenliggende branch voor de uitvoering in de hoofdfunctieregel. Om dit te doen worden branches samengevoegd of gecombineerd. In dit geval zal Git twee commit verwijzingen vinden, meestal de branch uiteinden, met een gemeenschappelijke basis commit ertussen. Eenmaal de gemeenschappelijke basis is gevonden, zal Git een ‘merge commit’ uitvoeren die de wijzigingen binnen elke branch samengevoegd, zoals hieronder getoond:
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_GitHub/image14_github_merge_branches_structure.png")
+```
+
+Branches samenvoegen wordt meestal gedaan vanuit de online repository op https://github.com/. Bij het openen van het tabblad ‘Pull requests’, kan een nieuwe samenvoegen plaats vinden met de ‘New pull request’ knop. 
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_GitHub/image15_new_pull_request.png")
+```
+
+In het volgende venster moet een basis en een te vergelijken branch geselecteerd worden. De basisbranch is de bovenliggende branch waarmee de andere branch wordt samengevoegd. Voordat de pull aanvraag wordt gemaakt, kan een beschrijving worden toegevoegd van wat er is veranderd in vergelijking met de basis branch::
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_GitHub/image16_create_pull_request.png")
+```
+
+Zodra de aanvraag is gemaakt, vergelijkt GitHub de twee branches van het project. Als er geen overlappende of tegenstrijdige wijzigingen zijn, zal GitHub aangeven dat de branches rechtstreeks kunnen worden samengevoegd:
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_GitHub/image17_merge_pull_request.png")
+```
+
+In dit geval kan indien nodig de onderliggende branch veilig verwijderd worden. Het is echter mogelijk dat er een conflict is. In dit geval wordt dit ook aangegeven door GitHub, en moet dit worden opgelost met de ‘resolve conflicts’ knop voordat het samenvoegen mogelijk is: 
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_GitHub/image18_resolve_merge_conflicts_button.png")
+```
+
+Indien deze knop gedeactiveerd is, zijn de conflicten te uitgebreid om opgelost te worden in GitHub. Anders zal een nieuw venster verschijnen waarin wordt aangegeven welke bestanden en welke secties de conflicten veroorzaken. Op dit punt moet er beslist worden als de gebruiker de bovenliggende branch versie, de onderliggende branch versie, of een geheel nieuwe wijziging wil maken die wijzigingen van beide branches bevat:
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_GitHub/image19_view_merge_conflict_example_with_conflict_markers.png")
+```
+
+Eenmaal alle problemen in het bestand opgelost zijn, klik ‘Mark as resolved’ voor dat bestand:
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_GitHub/image20_click_mark_as_resolved_button.png")
+```
+
+Als alle problemen in alle bestanden zijn opgelost, kan de samenvoeging uitgevoerd worden met de ‘Commit merge’ knop:
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_GitHub/image21_commit_merge_button.png")
+```
+
+### Versie bijhouden
+
+Alle commits die in een GitHub repository worden uitgevoerd, worden gedurende het hele project bijgehouden. Zo kunnen gebruikers eerdere versies van mappen en bestanden verkennen om te zien wat is veranderd. Om dit te doen, heeft een gebruiker toegang tot de geschiedenis van elk gekozen bestand of elke map, of zelfs de hele repository:
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_GitHub/image22_history.png")
+```
+
+De geschiedenis zal een overzicht geven van alle uitgevoerde vastleggingen. De exacte wijzigingen binnen elke vastlegging kunnen getoond worden door op een bepaalde commit te klikken:
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_GitHub/image23_history2.png")
+```
+
+## Regels voor GitHub repository van T2021
+
+### Branches aanmaken
+
+In de sectie [Een nieuw project branch aanmaken](#een_nieuwe_project_branch_aanmaken), wordt uitgelegd dat het werken in branches nodig is om nieuwe ontwikkelingen binnen een GitHub project te maken. Aangezien de T2021 GitHub repository onderdeel is van een basis factureringsplan, kunnen alle medewerkers een nieuwe branch binnen de repository aanmaken. Het is daarom belangrijk om een duidelijk beeld te hebben van waarom takken worden gemaakt. Nomenclatuur is hierbij een belangrijk aspect.
+
+Hoewel branch nomenclatuur vaak repository- of project specifiek is, zijn er drie basisregels die moeten worden gevolgd.
+
+1. De branch naam moet een korte, bruikbare beschrijving bevatten van waar de ontwikkeling over gaat.
+
+2. Als een branch wordt aangemaakt om een probleem op te lossen, voeg dan het probleem tracker ID toe aan de branch naam. 
+
+3. Gebruik koppeltekens (“-“) als scheidingtekens.
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_GitHub/image24_branch_naming_convention.png")
+```
+
+### Mappen aanmaken
+
+De mappenstructuur van de T2021 GitHub repository is gebaseerd op de hoofdstukken van de bijbehorende publicatie, zoals het geval was voor het T2015-data archief. Deze bestaat uit acht hoofdmappen die elk submappen bevatten. Deze hoofdstructuur mag enkel gewijzigd worden in overleg met de administrators van de repository.   
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_GitHub/image25_t2021_folder_structure.png")
+```
+
+```{r echo=FALSE, out.width='90%'}
+knitr::include_graphics("./images_manual_GitHub/image26_t2021_folder_3_dynamiek_waterbeweging.png")
+```
+
+Databestanden en scripts die betrekking hebben op een bepaald hoofdstuk moeten worden opgeslagen in de daarvoor bestemde map. Om dit te doen kan een duidelijke en uniforme methodologie worden gebruikt. Databestanden en scripts moeten in een aparte map worden opgeslagen. Hoewel het handiger lijkt om deze bestanden bij elkaar te houden, heeft het algemeen overzicht voordeel bij de twee-mappen structuur. Scripts en databestanden hebben vaak geen 1 op 1 relatie, aangezien één script meerdere databestanden kan gebruiken terwijl deze databestanden door meerdere scripts gerund kunnen worden. De structuur van elke map zou echter hetzelfde moeten zijn, met een map voor elke fase van het project:
+
+```{r echo=FALSE, out.width='50%'}
+knitr::include_graphics("./images_manual_GitHub/image27_data-scripts_folder.png")
+```
+
+Door deze structuur te gebruiken kan een uniforme werkwijze opgesteld worden binnen de project directory. De werkwijze volgt vier vaste stappen die worden uitgelegd in volgende tabel:
+
+```{r workflow table, echo=FALSE}
+data_workflowTable <- data.frame(
+  Step = c("Step 1 - Import data (if necessary)", "Step 2 - Clean data", "Step 3 - Anayze data", "Step 4 - Create figures or results"),
+  UsingDataFrom = c("n/a", "a. Raw data", "b. Cleaned data", "c. Analyzed data"),
+  UsingScriptsOrFunctionFrom = c("a. Import scripts", "b. Cleaning scripts", "c. Analysis scripts", "d. Figure scripts"),
+  SavingNewDataOrResultsIn = c("a. Raw data", "b. Cleaned data", "c. Analyzed data", "d. Figures & Results")
+)
+kable(data_workflowTable, col.names=c("", "Using data from:", "Using scripts or functions from:", "Saving new data or results in:"), align='l')%>%
+  kable_styling(latex_options = "striped", full_width = FALSE, position = 'c')%>%
+  column_spec(1, bold = TRUE)
+```
+
+
+Meer informatie over het aanbrengen van structuur in deze mappen, bestanden, scripts en code kan teruggevonden worden in de  [RStudio Handleiding](https://www.scheldemonitor.org/sites/scheldemonitor.be/files/2020-12/manual-rstudio.pdf) van ScheldeMonitor.
+
+Het aanmaken of verplaatsen van een map binnen GitHub kan worden gedaan door het aanmaken of wijzigen van een bestand binnen deze specifieke map. Als u dit doet verschijnt een venster onderaan die de gebruikers toelaat om de bestandsnaam te veranderen. Naast het veranderen van de bestandsnaam, kunnen gebruikers ook een map aanmaken door ‘/’ te typen na de naam, waardoor het veranderd van een bestandsnaam naar een mapnaam. Op deze manier kunnen mappen aangemaakt, verplaatst of verwijderd worden:
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_GitHub/image28_moving_a_file_to_a_new_location.png")
+```
+
+Belangrijk is dat GitHub het aanmaken van lege mappen niet toelaat. Daarom, als dit de bedoeling van de gebruiker is, moet een ‘.gitkeep’ bestand toegevoegd worden in de nieuw aangemaakte map om het systeem te vertellen dat de map bewaard moet blijven. 
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics("./images_manual_GitHub/image29_creating_a_new_folder.png")
+```
+
+Het is niet verplicht om een ‘.gitkeep’ bestand op de lokale Git installatie te maken. Het ‘.gitkeep’ bestand en andere wijzigingen kunnen ook gemaakt worden in de online GitHub repository T2021.
+
+### Bestanden aanmaken
+
+Bestanden moeten zo genoemd worden zodat gebruikers makkelijk hun doel kunnen afleiden. Dit is voornamelijk belangrijk bij het werken met scripts die functies uit andere scripts in verschillende fasen van de code zoeken.  
+
+Bijvoorbeeld, wanneer u verschillende scripts voor verschillende grafieken gebruikt, moet de nomenclatuur duidelijk aangeven welk plot werd gemaakt met behulp van het script.  Als het werk in de RStudio omgeving is gelinkt aan een bepaald rapport of publicatie, kan de figuurnummer van de publicatie opgenomen worden in de bestandsnaam. Het is ook mogelijk dat meerdere scripts gebruikt worden voor dezelfde figuur, waarbij in dit geval de nomenclatuur de verschillen moet tonen tussen de scripts. Deze regels kunnen resulteren in volgende nomenclatuur:
+
+```{r echo=FALSE, out.width='50%'}
+knitr::include_graphics("./images_manual_GitHub/image30_example_image_scripts_naming.png")
+```
+
+Meer informatie over dit topic, als ook de beschrijving van de algemeenste benamingsconventies kunnen teruggevonden worden in  [RStudio guide](https://www.scheldemonitor.org/sites/scheldemonitor.be/files/2020-12/manual-rstudio.pdf) op de ScheldeMonitor [website](https://www.scheldemonitor.org/en/data-analysis-platform).
+
+### Code aanmaken
+
+De samenwerking met meerdere gebruikers in deze GitHub repository vraagt duidelijkheid en reproduceerbaarheid van de code. Het is daarom belangrijk om richtlijnen te gebruiken en structuur toe te passen aan uw code, of het nu de R of Python programmeertaal is.
+
+Zoals aangehaald in de introductie, focust deze handleiding zich voornamelijk op R, aangezien het bedoeld is om het gebruik van GitHub repository te combineren met de ScheldeMonitor Rstudio omgeving. Voor R is er geen duidelijke consensus over de beste werkwijze. De  [RStudio handleiding](https://www.scheldemonitor.org/sites/scheldemonitor.be/files/2020-12/manual-rstudio.pdf) op de ScheldeMonitor [website](https://www.scheldemonitor.org/en/data-analysis-platform) voorziet echter een uitgebreid overzicht van algemene richtlijnen voor:
+
+- Hardcoding
+- Spacing
+- Code blokken
+- Long lines of code
+- Gebruik van pipes
+
+De belangrijkste aspecten die kunnen worden toegepast op alle programmeertalen zijn het gebruik van structuur en aantekeningen. Structuur in de code maakt een uitgebreid script beter leesbaar en begrijpbaar. Voor deze handleiding wordt de volgende structuur voorgesteld:
+
+-	Wie, wanneer, wat en hoe: Dit is een grote kop die in het begin van elk script moet staan, en aangeven wie het script schreef, wanneer het werd geschreven, hoe de schrijver gecontacteerd kan worden en wat het doel is. 
+- 0 – Load libraries: In deze sectie worden alle ‘libraries’ opgelijst die moeten geladen worden voordat het volledige script wordt gerund. Deze sectie kan ook wat meer uitleg geven over het gebruik van de ‘libraries’.
+- 1 – Static part: In dit deel worden alle statische zaken uitgevoerd zoals databestanden laden, deze data voorbereiden voor analyse, zoeken naar andere scripts functies of argumenten benoemen die later in het script zullen worden gebruikt.
+- 2 – Script: Deze sectie bevat de eigenlijke code die ervoor zorgt dat het script zijn doel vervult.
+
+```{r example script structure, eval=FALSE}
+#################################################################################
+## This is an example for the manual
+##
+## written by Jelle Rondelez of VLIZ
+## info@scheldemonitor.org - Oct 2020
+#################################################################################
+
+##############################
+# 0 - Load libraries
+##############################
+library(dplyr) # package to clean datatable
+library(lubridate) # package to change date formats
+
+##############################
+# 1 - Static part
+##############################
+
+#Assign variable
+newvar <- ""
+
+#Source script from within directory
+source("Scripts/a. Import scripts/ImportsWFS")
+
+#open data file
+datafile <- read.csv(file = "Data/b. Cleaned data/dataRWS.csv")
+
+##############################
+# 2 - Scripts
+##############################
+code...
+```
+
+Aantekenen van de code is belangrijk voor een aantal redenen. Het helpt om in detail uit te leggen wat een regel, chunk of zelf sectie van de code probeert uit te voeren. Dit is behulpzaam voor gebruikers en andere mensen die de code lezen. 
+
+De code aantekenen wordt gedaan met het # (hashtag) symbool, dat boven een volledige chunk code staat, zoals wanneer het doel van een bepaalde functie wordt uitgelegd.
+
+```{r example script annotation, eval=FALSE}
+#Reactive values for user location
+data_of_click <- reactiveValues(clicked = NULL)
+longitude_click <- reactiveValues (lng = NULL)
+latitude_click <- reactiveVaules (lat = NULL)
+
+#If user clicks on map, new coordinates are saved and map is adjusted
+observeEvent(input$Map_click. {
+  data_of_click$clicked <- input$Map_click
+  longitude_click <- input$Map_click$lng
+  latitude_click <- input$Map_click$lat
+  leafletProxy('Map')%>%
+    clearMarkers()%>%
+    addMarkers(lng = input$Map_click$lng,
+              lat = input$Map_click$lat,
+              popup = paste("Longitude=", round(input$Map_click$lng, 2),
+                            "and", 
+                            "Latittude=", round(input$Map_click$lat, 2)))
+})
+```
+
+# Helpdesk
+
+VLIZ is verantwoordelijk voor het beheer van de GitHub organisatie van ScheldeMonitor. Dit impliceert het beheer van de organisatie-instellingen, de inhoud ervan en alle medewerkers. De GitHub organisatie is bedoeld als de centrale hub voor alle repositories gewijd aan onderzoek en analyse gebaseerd op de ScheldeMonitor data en informatie, en projecten die door de VNSC worden gefinancierd.
+
+Om aan deze en andere noden van gebruikers en  medewerkers te voldoen, heeft VLIZ een permanente helpdesk. Deze helpdesk kan gecontacteerd worden via het algemene adres van de ScheldeMonitor:
+
+**Helpdesk ScheldeMonitor**
+
+Data Centre - Local Services & Projects
+
+:::: {.multicols data-latex="{3}" class="flex-container"}
+
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-image-item"}
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("./images_manual_GitHub/VLIZ_logo_positief.png")
+```
+
+:::
+
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-text-item"}
+
+**Vlaams Instituut voor de Zee vzw**
+
+**Flanders Marine Institute**
+
+InnovOcean site, Wandelaarkaai 7
+
+8400 Oostende, Belgium
+
+:::
+
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-text-item"}
+
+T +32(0)59340172
+
+info@scheldemonitor.org
+
+[www.vliz.be](www.vliz.be)
+
+:::
+
+::::
+
+Voor dringende zaken of vragen, of indien gebruikers en medewerkers het gebruik van de RStudio omgeving willen bespreken voor bepaalde projecten, kan de project manager van ScheldeMonitor gecontacteerd worden: 
+
+**Jelle Rondelez**
+
+::: {class="no-spacing"}
+
+Project Manager
+
+Data Centre - Local Services & Projects
+
+:::
+
+:::: {.multicols data-latex="{3}" class="flex-container"}
+
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-image-item"}
+
+```{r, echo=FALSE, out.width="80%"}
+knitr::include_graphics("./images_manual_GitHub/VLIZ_logo_positief.png")
+```
+
+:::
+
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-text-item"}
+
+**Vlaams Instituut voor de Zee vzw**
+
+**Flanders Marine Institute**
+
+InnovOcean site, Wandelaarkaai 7
+
+8400 Oostende, Belgium
+
+:::
+
+::: {.minipage data-latex="[t]{1\linewidth}" class="flex-text-item"}
+
+M +32(0)473510828
+
+jelle.rondelez@vliz.be
+
+[www.vliz.be](www.vliz.be)
+
+:::
+
+::::
