@@ -1,6 +1,12 @@
 ---
 title: 'ScheldeMonitor Handleiding: GitHub repository - T2021'
 output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_section: true
+    highlight: haddock
+    css: "style.css"
   pdf_document:
     toc: true
     number_section: true
@@ -8,12 +14,6 @@ output:
     extra_dependencies: ["multicol"]
     includes:
       in_header: mystyle.sty
-  html_document:
-    toc: true
-    toc_float: true
-    number_section: true
-    highlight: haddock
-    css: "style.css"
 date:  "Geschreven, onderhouden en geüpdatet door het ScheldeMonitor team van VLIZ - Versie 3 (`r format(Sys.time(), '%d/%m/%Y')`)"
 ---
 
